@@ -1,5 +1,5 @@
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
-import { KanbanBoard } from "../components/Kanbanboard";
+import { KanbanBoard } from "../components/KanbanBoard";
 export function App() {
   const patientsInQueue = [
     "John Doe",
