@@ -22,15 +22,17 @@ export enum TriageCategory {
 }
 
 export interface Patient {
-  id?: string;
-  arrivalTime?: Date;
-  triageCategory?: TriageCategory;
+  id: string;
+  name: string;
+  arrivalTime: Date;
+  birthDate: Date;
+  triageCategory: TriageCategory;
   queuePosition?: {
     global: number;
     category: number;
   };
-  status?: Status;
-  timeElapsed?: number;
+  status: Status;
+  timeElapsed: number;
 }
 
 export interface Status {
@@ -39,4 +41,12 @@ export interface Status {
     labs: InvestigationState;
     imaging: InvestigationState;
   };
+}
+
+export interface PatientsQueue {
+  waitingCount: number;
+  longestWaitTime: number;
+  patients: Patient[];
+  categoryBreakdown: Record<TriageCategory, number>;
+  averageWaitTimes: Record<TriageCategory, number>;
 }

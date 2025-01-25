@@ -1,12 +1,10 @@
 import { Handler } from '@netlify/functions';
-import { getQueue } from './mchacks-routes';
+import db from './db.json';
 
-const handler: Handler = async (event) => {
-  const sort = event?.queryStringParameters?.['sort'] ||  'arrival_time';
-
+const handler: Handler = async () => {
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: getQueue(sort) }),
+    body: JSON.stringify(db),
   };
 };
 
