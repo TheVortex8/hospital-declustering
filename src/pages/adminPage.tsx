@@ -1,5 +1,6 @@
+
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
-import "../style/adminPage.css";
+import "../style/AdminPage.css";
 
 export function AdminPage() {
   const patientsInQueue = [
@@ -13,12 +14,12 @@ export function AdminPage() {
 
   const registeredPatients = ["Anna Baker", "Chris Evans", "Diana Scott"];
 
-  const [patientTriaged, triagedPatientTodos] = useDragAndDrop<HTMLUListElement, string>(
+  const [queueList, queueItems] = useDragAndDrop<HTMLUListElement, string>(
     patientsInQueue,
     { group: "Patients", dragHandle: ".kanban-handle" }
   );
 
-  const [registeredList, registered] = useDragAndDrop<HTMLUListElement, string>(
+  const [registeredList, registeredItems] = useDragAndDrop<HTMLUListElement, string>(
     registeredPatients,
     { group: "Patients", dragHandle: ".kanban-handle" }
   );
@@ -28,63 +29,73 @@ export function AdminPage() {
     { group: "Patients", dragHandle: ".kanban-handle" }
   );
 
-  const [treatmentList, treatment] = useDragAndDrop<HTMLUListElement, string>(
+  const [treatmentList, treatmentItems] = useDragAndDrop<HTMLUListElement, string>(
     [],
     { group: "Patients", dragHandle: ".kanban-handle" }
   );
 
-  const [admittedList, admitted] = useDragAndDrop<HTMLUListElement, string>(
+  const [admittedList, admittedItems] = useDragAndDrop<HTMLUListElement, string>(
     [],
     { group: "Patients", dragHandle: ".kanban-handle" }
   );
 
   return (
     <div className="kanban-board">
+
+      {/* Patients in Queue */}
       <div className="kanban-column">
-        <h2>Triaged</h2>
-        <ul ref={patientTriaged}>
-          {triagedPatientTodos.map((todo) => (
-            <li className="kanban-item kanban-handle" key={todo}>
-              {todo}
+        <h2>Patients in Queue</h2>
+        <ul ref={queueList} className="kanban-list">
+          {queueItems.map((item) => (
+            <li key={item} className="kanban-item kanban-handle">
+              {item}
             </li>
           ))}
         </ul>
       </div>
+
+      {/* Registered Patients */}
       <div className="kanban-column">
-        <h2>Registered</h2>
-        <ul ref={registeredList}>
-          {registered.map((done) => (
-            <li className="kanban-item kanban-handle" key={done}>
-              {done}
+        <h2>Registered Patients</h2>
+        <ul ref={registeredList} className="kanban-list">
+          {registeredItems.map((item) => (
+            <li key={item} className="kanban-item kanban-handle">
+              {item}
             </li>
           ))}
         </ul>
       </div>
+
+      {/* Investigation Pending */}
       <div className="kanban-column">
         <h2>Investigation Pending</h2>
-        <ul ref={investigationPendingList}>
+        <ul ref={investigationPendingList} className="kanban-list">
           {investigationPending.map((item) => (
-            <li className="kanban-item kanban-handle" key={item}>
+            <li key={item} className="kanban-item kanban-handle">
               {item}
             </li>
           ))}
         </ul>
       </div>
+
+      {/* Treatment */}
       <div className="kanban-column">
         <h2>Treatment</h2>
-        <ul ref={treatmentList}>
-          {treatment.map((item) => (
-            <li className="kanban-item kanban-handle" key={item}>
+        <ul ref={treatmentList} className="kanban-list">
+          {treatmentItems.map((item) => (
+            <li key={item} className="kanban-item kanban-handle">
               {item}
             </li>
           ))}
         </ul>
       </div>
+
+      {/* Admitted */}
       <div className="kanban-column">
         <h2>Admitted</h2>
-        <ul ref={admittedList}>
-          {admitted.map((item) => (
-            <li className="kanban-item kanban-handle" key={item}>
+        <ul ref={admittedList} className="kanban-list">
+          {admittedItems.map((item) => (
+            <li key={item} className="kanban-item kanban-handle">
               {item}
             </li>
           ))}

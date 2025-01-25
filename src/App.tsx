@@ -17,7 +17,7 @@ function App() {
 
           {/* Admin Page Route */}
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/admin" element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>
