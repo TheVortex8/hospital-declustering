@@ -2,12 +2,21 @@ import { Handler } from '@netlify/functions';
 import { data } from './utils/db';
 import { updateQueue } from './utils/patientService';
 
-// api/v1/insert
+// api/v1/update
 // POST
 // check types/patient.ts for the expected body
 const handler: Handler = async (event) => {
-  const patient = parseWithDates(event.body!);
-  const refreshedData = updateQueue([...data.patients, patient])
+  const patientToUpdate = parseWithDates(event.body!);
+  const patientIndex = data.patients.findIndex(patient => patient.id === patientToUpdate.id);
+
+  if (patientIndex === -1) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: 'Patient not found' }),
+    };
+  }
+
+  const refreshedData = updateQueue(data.patients);
 
   return {
     statusCode: 200,

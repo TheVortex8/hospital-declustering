@@ -1,7 +1,8 @@
 import { faker } from "@faker-js/faker";
-import { InvestigationState, Patient, PatientPhase, PatientsQueue, Status, TriageCategory } from "../../types/patient";
+import { InvestigationState, Patient, PatientPhase, PatientsQueue, Status, TriageCategory } from "../../../types/patient";
+import { saveToDb } from "./db";
 
-export const refreshData = (patients: Patient[]) => {
+export const updateQueue = (patients: Patient[]) => {
   patients.sort((a, b) => {
     if (a.triageCategory !== b.triageCategory) {
       return a.triageCategory - b.triageCategory;
@@ -36,6 +37,9 @@ export const refreshData = (patients: Patient[]) => {
     },
     patients,
   };
+
+  saveToDb(queue);
+  
   return queue;
 }
 const generateMockTriageCategory = () => {
