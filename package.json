@@ -4,14 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "netlify dev",
+    "build:netlify": "netlify build",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@formkit/drag-and-drop": "^0.3.3",
     "kanban-board": "^2.4.11",
+    "@netlify/functions": "^3.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
