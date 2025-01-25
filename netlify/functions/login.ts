@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import db from './db.json';
+import { data } from './db';
 
 // api/v1/login
 // POST
@@ -15,7 +15,7 @@ const handler: Handler = async (event) => {
   const month = birthDate.substring(4, 6);
   const date = birthDate.substring(6, 8);
 
-  const patient = db.patients.find(patient => 
+  const patient = data.patients.find(patient => 
     patient.id === id &&
     new Date(patient.birthDate).getFullYear() == year &&
     new Date(patient.birthDate).getMonth() + 1 == month &&
