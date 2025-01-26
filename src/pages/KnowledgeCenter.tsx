@@ -21,7 +21,6 @@ const KnowledgeCenter = () => {
     
       className="container"
       style={{
-      minHeight: "100vh",
       padding: "40px 20px",
       display: "flex",
       flexDirection: "column",
