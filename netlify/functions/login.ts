@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import { data } from './db';
+import { data } from './utils/db';
 
 // api/v1/login
 // POST

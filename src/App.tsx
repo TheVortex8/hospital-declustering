@@ -3,7 +3,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
-import { AdminPage } from "./pages/AdminPage";
+import { AdminPage } from "./pages/adminPage";
+import WhackAMole from "./pages/whackeAMole";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
 
           {/* Admin Page Route */}
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/whackeamole" element={<WhackAMole />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </div>
