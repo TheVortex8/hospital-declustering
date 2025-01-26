@@ -1,9 +1,8 @@
-import React from "react";
 import { ChevronRight } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
 
 const KnowledgeCenter = () => {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const menuItems = [
     { label: "Understanding Triage", endpoint: "/triageInfo" },

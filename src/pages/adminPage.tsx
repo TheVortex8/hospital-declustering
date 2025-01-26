@@ -266,12 +266,12 @@ export function AdminPage() {
           </ul>
         </div>
 
-        {/* Admitted */}
+        {/* Registered */}
         <div>
-          <h3>Admitted</h3>
-          <ul ref={admitted} className="kanban-column">
-            {
-             patientsAdmitted.map((patient) => (
+          <h3>Registered</h3>
+          <ul ref={registered} className="kanban-column">
+            {registeredPatient
+              .map((patient) => (
                 <label className="kanban-item" key={patient.name}>
                   <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
                   <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
@@ -287,6 +287,29 @@ export function AdminPage() {
               ))}
           </ul>
         </div>
+        {/* Pending Investigations */}
+        <div>
+          <h3>Pending Investigations</h3>
+          <ul ref={pendingInvestigation} className="kanban-column">
+            {pendingInvestigationPatient
+              .map((patient) => (
+                <label className="kanban-item" key={patient.name}>
+                  <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
+                  <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+                    {patient.name}
+                    <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
+                  </span>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                    {patient.status.investigations && (
+                      <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                    )}
+                  </span>
+                </label>
+              ))}
+          </ul>
+        </div>
+
+        
 
         {/* Treatment */}
         <div>
@@ -310,12 +333,12 @@ export function AdminPage() {
           </ul>
         </div>
 
-        {/* Pending Investigations */}
+        {/* Admitted */}
         <div>
-          <h3>Pending Investigations</h3>
-          <ul ref={pendingInvestigation} className="kanban-column">
-            {pendingInvestigationPatient
-              .map((patient) => (
+          <h3>Admitted</h3>
+          <ul ref={admitted} className="kanban-column">
+            {
+             patientsAdmitted.map((patient) => (
                 <label className="kanban-item" key={patient.name}>
                   <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
                   <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
@@ -354,27 +377,7 @@ export function AdminPage() {
           </ul>
         </div>
 
-        {/* Registered */}
-        <div>
-          <h3>Registered</h3>
-          <ul ref={registered} className="kanban-column">
-            {registeredPatient
-              .map((patient) => (
-                <label className="kanban-item" key={patient.name}>
-                  <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
-                  <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
-                    {patient.name}
-                    <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
-                  </span>
-                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
-                    {patient.status.investigations && (
-                      <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
-                    )}
-                  </span>
-                </label>
-              ))}
-          </ul>
-        </div>
+        
       </div>
     </div>
   );
