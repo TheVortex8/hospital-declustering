@@ -31,24 +31,29 @@ const KnowledgeCenter = () => {
     >
     <button
       style={{
-        position: "absolute",
-        top: "10px",
-        left: "10px",
-        padding: "10px 20px",
-        fontSize: "16px",
-        color: "#ffffff",
-        backgroundColor: "#00796b",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
+      position: "absolute",
+      top: "20px",
+      left: "20px",
+      padding: "10px 20px",
+      fontSize: "16px",
+      color: "#ffffff",
+      backgroundColor: "#00796b",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
       }}
-      onClick={() => (window.location.href = "/dashboard")}
+      onClick={() => navigate("/dashboard")}
     >
       Back
     </button>
   
-      <h1 className="text-4xl font-bold mb-16 text-center text-gray-800">
-      Knowledge Center
+      <h1 style={{
+        fontSize: '2rem',
+        marginTop: '1em',
+        marginBottom: '1.5rem',
+        textAlign: 'center',  
+      }}>
+        Knowledge Center
       </h1>
       <div className="w-full max-w-5xl">
       {menuItems.map((item, index) => (
