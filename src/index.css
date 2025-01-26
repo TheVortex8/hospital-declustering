@@ -17,6 +17,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  div {
+    height: 95%;
+  }
 }
 
 body {

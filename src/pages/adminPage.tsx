@@ -1,84 +1,77 @@
 import { useEffect, useState } from "react";
-import "../styles/AdminPage.css";
+import "../styles/adminPage.css";
 import { Badge } from "../components/Badge"; // Import the Badge component
-import { Patient, PatientPhase, PatientsQueue, TriageCategory } from "../../types/patient";
-import React from "react";
+import { Patient, PatientPhase, PatientsQueue } from "../../types/patient";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react"
 
 export function AdminPage() {
   const [queue, setQueue] = useState<PatientsQueue>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [tiragedPatientsList , setTiragedPatientList] = React.useState(false);
-  const [treatmentPatientList, setTreatmentPatientList] = React.useState(false);
-  const [admittedPatientList, setAdmittedPatientList] = React.useState(false);
-const [pendingInvestigationsList, setPendingInvestigationsList] = React.useState(false);
-    const [dischargedPatientList, setDischargedPatientList] = React.useState(false);
-    const [registeredPatientList, setRegisteredPatientList] = React.useState(false);
 
    
 
   
-  const triagedPatients = (queue?.patients || [])
-  .filter(patient => patient.status.current_phase === PatientPhase.TRIAGED);
+  const [triagedPatients, setTriagedPatients] = useState<Patient[]>([]);
+  const [treatmentPatients, setTreatmentPatients] = useState<Patient[]>([]);
+  const [admittedPatients, setAdmittedPatients] = useState<Patient[]>([]);
+  const [pendingInvestigations, setPendingInvestigations] = useState<Patient[]>([]);
+  const [dischargedPatients, setDischargedPatients] = useState<Patient[]>([]);
+  const [registeredPatients, setRegisteredPatients] = useState<Patient[]>([]);
 
-const treatmentPatients = (queue?.patients || [])
-  .filter(patient => patient.status.current_phase === PatientPhase.TREATMENT);
-
-  const admittedPatients = (queue?.patients || [])
-  .filter(patient => patient.status.current_phase === PatientPhase.ADMITTED);
-
-const pendingInvestigations = (queue?.patients || [])
-  .filter(patient => patient.status.current_phase === PatientPhase.INVESTIGATIONS_PENDING);
-
-const dischargedPatients = (queue?.patients || [])
-  .filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED);
-
-  const registeredPatients = (queue?.patients || [])
-  .filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED);
-
-  const [triaged, triagedPatient] = useDragAndDrop<HTMLUListElement, string>(
+  const [triaged, triagedPatient, setTriagedPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     triagedPatients,
     {
       group: "triaged",
-     
     }
   );
-  const [treatment, treatmentPatient] = useDragAndDrop<HTMLUListElement, string>(
+  const [treatment, treatmentPatient, setTreatmentPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     treatmentPatients,
     {
-      group: "treatment",
-     
+      group: "triaged",
     }
   );
-  const [admitted, patientsAdmitted] = useDragAndDrop<HTMLUListElement, string>(
+  const [admitted, patientsAdmitted, setPatientsAdmitted] = useDragAndDrop<HTMLUListElement, Patient>(
     admittedPatients,
     {
-      group: "admitted",
-     
+      group: "triaged",
     }
   );
-  const [pendingInvestigation, pendingInvestigationPatient] = useDragAndDrop<HTMLUListElement, string>(
+  const [pendingInvestigation, pendingInvestigationPatient, setPendingInvestigationPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     pendingInvestigations,
     {
-      group: "pendingInvestigation",
-     
+      group: "triaged",
     }
   );
-  const [discharged, dischargedPatient] = useDragAndDrop<HTMLUListElement, string>(
+  const [discharged, dischargedPatient, setDischargedPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     dischargedPatients,
     {
-      group: "discharged",
-     
+      group: "triaged",
     }
   );
-  const [registered, registeredPatient] = useDragAndDrop<HTMLUListElement, string>(
+  const [registered, registeredPatient, setRegisteredPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     registeredPatients,
     {
-      group: "registered",
-     
+      group: "triaged",
     }
   );
+
+  useEffect(() => {
+    if (queue) {
+      setTriagedPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.TRIAGED));
+      setTriagedPatient(triagedPatients);
+      setTreatmentPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.TREATMENT));
+      setTreatmentPatient(treatmentPatients);
+      setAdmittedPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.ADMITTED));
+      setPatientsAdmitted(admittedPatients);
+      setPendingInvestigations(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.INVESTIGATIONS_PENDING));
+      setPendingInvestigationPatient(pendingInvestigations);
+      setDischargedPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED));
+      setDischargedPatient(dischargedPatients);
+      setRegisteredPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED));
+      setRegisteredPatient(registeredPatients);
+    }
+  }, [queue]);
   
 
 
@@ -107,13 +100,23 @@ const dischargedPatients = (queue?.patients || [])
   const getBadgeStyle = (status) => {
     switch (status) {
       case "ordered":
-        return { border: "2px solid #6c757d" }; // Gray border
+        return { border: "#6c757d" }; // Gray border
       case "pending":
-        return { border: "2px solid #ffc107" }; // Yellow border
+        return { border: "#ffc107" }; // Yellow border
       case "reported":
-        return { border: "2px solid #28a745" }; // Green border
+        return { border: "#28a745" }; // Green border
+      case 1:
+        return { border: "#007bff" }; // Blue border
+      case 2:
+        return { border: "#dc3545" }; // Red border
+      case 3:
+        return { border: "#ffc107" }; // Yellow border
+      case 4:
+        return { border: "#28a745" }; // Green border
+      case 5:
+        return { border: "#ffffff" }; // White border
       default:
-        return { border: "2px solid #6c757d" }; // Default Gray border
+        return { border: "#6c757d" }; // Default Gray border
     }
   };
 
@@ -132,9 +135,17 @@ const dischargedPatients = (queue?.patients || [])
             {triagedPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
+                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
                   {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.status)} />
-                </li>
+                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
+                </span>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                  {patient.status.investigations && (
+                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                  )}
+                    
+                  </span>
+              </li>
               ))}
           </ul>
         </div>
@@ -145,10 +156,18 @@ const dischargedPatients = (queue?.patients || [])
           <ul ref={admitted}className="kanban-column">
             {
              patientsAdmitted .map((patient) => (
-                <li className="kanban-item" key={patient.name}>
-                  {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.status)} />
-                </li>
+              <li className="kanban-item" key={patient.name}>
+              <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+                {patient.name}
+                <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
+              </span>
+                <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                {patient.status.investigations && (
+                  <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                )}
+                  
+                </span>
+            </li>
               ))}
           </ul>
         </div>
@@ -160,9 +179,17 @@ const dischargedPatients = (queue?.patients || [])
             {treatmentPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
+                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
                   {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.status)} />
-                </li>
+                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
+                </span>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                  {patient.status.investigations && (
+                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                  )}
+                    
+                  </span>
+              </li>
               ))}
           </ul>
         </div>
@@ -174,9 +201,17 @@ const dischargedPatients = (queue?.patients || [])
             {pendingInvestigationPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
+                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
                   {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.status)} />
-                </li>
+                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
+                </span>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                  {patient.status.investigations && (
+                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                  )}
+                    
+                  </span>
+              </li>
               ))}
           </ul>
         </div>
@@ -188,9 +223,17 @@ const dischargedPatients = (queue?.patients || [])
             {dischargedPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
+                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
                   {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.status)} />
-                </li>
+                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
+                </span>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                  {patient.status.investigations && (
+                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                  )}
+                    
+                  </span>
+              </li>
               ))}
           </ul>
         </div>
@@ -202,9 +245,17 @@ const dischargedPatients = (queue?.patients || [])
             {registeredPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
+                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
                   {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.status)} />
-                </li>
+                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
+                </span>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                  {patient.status.investigations && (
+                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                  )}
+                    
+                  </span>
+              </li>
               ))}
           </ul>
         </div>

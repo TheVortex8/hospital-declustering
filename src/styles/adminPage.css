@@ -65,10 +65,11 @@ h1 {
 .kanban-column {
   flex: 1;
   padding: 20px;  
-  height: calc(90% - 40px);
+  min-height: calc(90% - 50px);
+  max-height: calc(90% - 50px);
   display: flex;
   flex-direction: column;
-  min-width: 250px;
+  min-width: 350px;
   margin: 0;
   background-color: transparent;
   border: 1px dashed #78B3CE;
@@ -93,8 +94,12 @@ h1 {
   border-radius: 8px;
   cursor: grab;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   color: #555555;
   font-size: 1rem;
+  gap: 10px;
   transition: transform 0.2s ease, background-color 0.2s ease,
     box-shadow 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -120,6 +125,7 @@ h1 {
 
 .kanban-column {
   flex-shrink: 0;
+  overflow-y: auto;
 }
 
 /* Smooth Transitions */

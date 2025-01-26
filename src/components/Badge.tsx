@@ -7,6 +7,7 @@ interface BadgeProps {
 }
 
 export const Badge: React.FC<BadgeProps> = ({ color: style, label }) => {
+    console.log(style);
     return (
         <span className="badge" style={{ borderColor: style.border }}>
             <span className="dot" style={{ backgroundColor: style.border }}></span>
