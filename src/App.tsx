@@ -10,6 +10,7 @@ import Games from "./pages/games";
 import Wordle from "./pages/wordle";
 import Chatbox from "./pages/chatbox";
 import Profile from "./pages/profile";
+import Feedback from "./pages/feedback";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/wordle" element={<Wordle />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/chatbox" element={<Chatbox />} />
+          <Route path="/feedback" element={<Feedback />} />
         </Routes>
     </Router>
   );

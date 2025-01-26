@@ -64,6 +64,22 @@ const App: React.FC = () => {
 
   return (
     <div className="body">
+      <button
+      style={{
+        position: 'absolute',
+        top: '10px',
+        left: '20px',
+        padding: '10px 20px',
+        fontSize: '16px',
+        color: '#ffffff',
+        backgroundColor: '#00796b',
+        border: 'none',
+        cursor: 'pointer',
+      }}
+      onClick={() => window.location.href = '/games'}
+    >
+      Back
+    </button>
       <h1 className="h1">Wordle Clone</h1>
 
       <div className="container">

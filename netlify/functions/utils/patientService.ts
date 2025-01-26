@@ -12,21 +12,36 @@ export const updateQueue = async (patients: Patient[]) => {
   });
 
   for (let i = 0; i < patients.length; i++) {
+    
     const samePhasePatients = patients.filter(patient => 
-      patient.status.current_phase === patients[i].status.current_phase &&
-      patient.triageCategory === patients[i].triageCategory
+      patient.status.current_phase === patients[i].status.current_phase
     );
     
+    const allPatientsSortedByArrival = [...patients].sort((a, b) => 
+      a.arrivalTime.getTime() - b.arrivalTime.getTime()
+    );
+
     patients[i].queuePosition = {
-      global: i + 1,
-      category: patients.filter(patient => patient.triageCategory === patients[i].triageCategory).indexOf(patients[i]) + 1,
-      phase: samePhasePatients.indexOf(patients[i]) + 1
+      global: allPatientsSortedByArrival.indexOf(patients[i]) + 1,
+      phase: samePhasePatients.indexOf(patients[i]) + 1,
+      categoryInPhase: samePhasePatients.filter(patient => 
+      patient.triageCategory === patients[i].triageCategory
+      ).indexOf(patients[i]) + 1,
+      categoryGlobal: patients.filter(patient => 
+      patient.triageCategory === patients[i].triageCategory
+      ).indexOf(patients[i]) + 1
     };
   }
 
   const queue: PatientsQueue = {
     waitingCount: patients.length,
-    longestWaitTime: Math.ceil(patients.reduce((max, patient) => Math.max(max, (new Date().getTime() - patient.arrivalTime.getTime()) / 60000), 0)),
+    longuestWaitTimePerPhase: 
+    Object.values(PatientPhase).reduce((acc, phase) => {
+      const patientsInPhase = patients.filter(p => p.status.current_phase === phase);
+      const maxWait = patientsInPhase.length ? Math.ceil(Math.max(...patientsInPhase.map(p => (new Date().getTime() - p.arrivalTime.getTime()) / 60000))) : 0;
+      acc[phase] = maxWait;
+      return acc;
+    }, {} as Record<PatientPhase, number>),
     categoryBreakdown: {
       [TriageCategory.RESUSCITATION]: patients.filter(patient => patient.triageCategory === TriageCategory.RESUSCITATION).length,
       [TriageCategory.EMERGENT]: patients.filter(patient => patient.triageCategory === TriageCategory.EMERGENT).length,
@@ -67,8 +82,7 @@ const generateMockArrivalTime = (triageCategory) => {
   };
   const [min, max] = waitRanges[triageCategory];
   const minutesAgo = Math.floor(Math.random() * (max - min + 1)) + min;
-  const arrivalTime = new Date();
-  arrivalTime.setMinutes(arrivalTime.getMinutes() - minutesAgo);
+  const arrivalTime = new Date(Date.now() - minutesAgo * 60000);
   return arrivalTime;
 };
 
@@ -116,6 +130,10 @@ export const generateMockPatients = (count): PatientsQueue => {
   }
 
   patients.sort((a, b) => {
+    if (a.status.current_phase !== b.status.current_phase) {
+      return Object.values(PatientPhase).indexOf(a.status.current_phase) - Object.values(PatientPhase).indexOf(b.status.current_phase);
+    }
+    
     if (a.triageCategory !== b.triageCategory) {
       return a.triageCategory - b.triageCategory;
     }
@@ -124,21 +142,35 @@ export const generateMockPatients = (count): PatientsQueue => {
   });
 
   for (let i = 0; i < patients.length; i++) {
+    
     const samePhasePatients = patients.filter(patient => 
-      patient.status.current_phase === patients[i].status.current_phase &&
-      patient.triageCategory === patients[i].triageCategory
+      patient.status.current_phase === patients[i].status.current_phase
     );
     
+    const allPatientsSortedByArrival = [...patients].sort((a, b) => 
+      a.arrivalTime.getTime() - b.arrivalTime.getTime()
+    );
+
     patients[i].queuePosition = {
-      global: i + 1,
-      category: patients.filter(patient => patient.triageCategory === patients[i].triageCategory).indexOf(patients[i]) + 1,
-      phase: samePhasePatients.indexOf(patients[i]) + 1
+      global: allPatientsSortedByArrival.indexOf(patients[i]) + 1,
+      phase: samePhasePatients.indexOf(patients[i]) + 1,
+      categoryInPhase: samePhasePatients.filter(patient => 
+      patient.triageCategory === patients[i].triageCategory
+      ).indexOf(patients[i]) + 1,
+      categoryGlobal: patients.filter(patient => 
+      patient.triageCategory === patients[i].triageCategory
+      ).indexOf(patients[i]) + 1
     };
   }
 
   const queue: PatientsQueue = {
     waitingCount: patients.length,
-    longestWaitTime: Math.ceil(patients.reduce((max, patient) => Math.max(max, (new Date().getTime() - patient.arrivalTime.getTime()) / 60000), 0)),
+    longuestWaitTimePerPhase: Object.values(PatientPhase).reduce((acc, phase) => {
+      const patientsInPhase = patients.filter(p => p.status.current_phase === phase);
+      const maxWait = patientsInPhase.length ? Math.ceil(Math.max(...patientsInPhase.map(p => (new Date().getTime() - p.arrivalTime.getTime()) / 60000))) : 0;
+      acc[phase] = maxWait;
+      return acc;
+    }, {} as Record<PatientPhase, number>),
     categoryBreakdown: {
       [TriageCategory.RESUSCITATION]: patients.filter(patient => patient.triageCategory === TriageCategory.RESUSCITATION).length,
       [TriageCategory.EMERGENT]: patients.filter(patient => patient.triageCategory === TriageCategory.EMERGENT).length,

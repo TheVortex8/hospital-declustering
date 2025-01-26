@@ -1,6 +1,6 @@
 export enum PatientPhase {
-  REGISTERED = "registered",
   TRIAGED = "triaged",
+  REGISTERED = "registered",
   INVESTIGATIONS_PENDING = "investigations_pending",
   TREATMENT = "treatment",
   ADMITTED = "admitted",
@@ -29,8 +29,9 @@ export interface Patient {
   triageCategory: TriageCategory;
   queuePosition?: {
     global: number;
-    category: number;
+    categoryGlobal: number;
     phase: number;
+    categoryInPhase: number;
   };
   status: Status;
 }
@@ -45,7 +46,7 @@ export interface Status {
 
 export interface PatientsQueue {
   waitingCount: number;
-  longestWaitTime: number;
+  longuestWaitTimePerPhase: Record<PatientPhase, number>;
   patients: Patient[];
   categoryBreakdown: Record<TriageCategory, number>;
   averageWaitTimes: Record<TriageCategory, number>;

@@ -46,7 +46,7 @@ const Chatbox = () => {
       <button
       style={{
         position: 'absolute',
-        top: '20px',
+        top: '10px',
         left: '20px',
         padding: '10px 20px',
         fontSize: '16px',
