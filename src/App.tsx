@@ -11,7 +11,7 @@ import Wordle from "./pages/wordle";
 import Chatbox from "./pages/chatbox";
 import Profile from "./pages/profile";
 import Feedback from "./pages/feedback";
-import MoreInfo from "./pages/moreInfo";
+import MoreInfo from "./pages/info";
 
 function App() {
   return (

@@ -42,26 +42,6 @@ const MoreInfo: React.FC = () => {
       <li><strong>Everyone gets the care they need:</strong> The system ensures those who need urgent care are seen first, but no one is forgotten.</li>
       <li><strong>Your wait time depends on the severity of your condition:</strong> We'll keep you informed along the way.</li>
       </ul>
-
-      <h2>Why do tests?</h2>
-      <p>Medical tests help doctors understand what's happening in your body.</p>
-
-      <h3>Examples of tests</h3>
-      <ul>
-      <li><strong>Blood tests:</strong> Helps doctors understand your overall health and find out what might be causing your symptoms</li>
-      <li><strong>X-Rays:</strong> Take pictures of bones and organs</li>
-      <li><strong>CT Scan:</strong> Creates detailed images of your body</li>
-      <li><strong>Ultrasound:</strong> Uses sound waves to create images of organs</li>
-      <li><strong>EKG:</strong> Measures your heart's electrical activity</li>
-      <li><strong>Urine tests:</strong> Analyze a sample of your urine</li>
-      </ul>
-
-      <h3>Why These Tests Matter</h3>
-      <ul>
-      <li>Tests help find the right diagnosis quickly so you can get the best care</li>
-      <li>Results help doctors decide the next steps in your treatment</li>
-      <li>Most tests don't take long and help doctors make sure you're getting the right care</li>
-      </ul>
       </div>
       
     </div>
