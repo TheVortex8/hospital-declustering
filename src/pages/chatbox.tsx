@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../styles/chatbox.css'; // Import the CSS file
 
 const Chatbox = () => {
   const [input, setInput] = useState('');
@@ -44,40 +45,22 @@ const Chatbox = () => {
   return (
     <div className="chat-container">
       <button
-      style={{
-        position: 'absolute',
-        top: '10px',
-        left: '20px',
-        padding: '10px 20px',
-        fontSize: '16px',
-        color: '#ffffff',
-        backgroundColor: '#00796b',
-        border: 'none',
-        cursor: 'pointer',
-      }}
-      onClick={() => window.location.href = '/dashboard'}
-    >
-      Back
-    </button>
+        className="back-button"
+        onClick={() => window.location.href = '/dashboard'}
+      >
+        Back
+      </button>
       {/* Chat History Box */}
       <div className="history-box">
         <h2 className="history-title">QuickPulse AI</h2>
       </div>
 
       {/* Chat Messages */}
-      <div 
-        className="messages-container"
-        style={{ 
-          maxHeight: '400px', 
-          overflowY: 'auto',
-          padding: '10px'
-        }}
-      >
+      <div className="messages-container">
         {messages.map((message, index) => (
           <div
             key={index}
             className={`message ${message.isUser ? 'user-message' : 'bot-message'}`}
-            style={{ marginBottom: '10px' }}
           >
             {message.text}
           </div>
@@ -91,14 +74,12 @@ const Chatbox = () => {
           onChange={(e) => setInput(e.target.value)}
           className="message-input"
           placeholder="What is my position in queue?"
-          style={{ flex: 1, resize: 'vertical', width: '90%' }}
           rows={4}
         />
         <button 
           type="submit"
           className="send-button"
           disabled={isLoading}
-          style={{ width: '90%' }}
         >
           Send
         </button>

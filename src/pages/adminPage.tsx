@@ -12,11 +12,12 @@ export function AdminPage() {
   const [newGroup, setNewGroup] = useState<PatientPhase | "">("");
   const [showCreatePanel, setShowCreatePanel] = useState(false);
   const [newPatient, setNewPatient] = useState({
+    id: "anon99",
     name: "",
     arrivalTime: new Date(),
     birthDate: new Date(),
     triageCategory: TriageCategory.NON_URGENT,
-    status: { current_phase: PatientPhase.REGISTERED }
+    status: { current_phase: PatientPhase.REGISTERED}
   });
 
   const [triagedPatients, setTriagedPatients] = useState<Patient[]>([]);
@@ -65,18 +66,7 @@ export function AdminPage() {
 
   useEffect(() => {
     if (queue) {
-      setTriagedPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.TRIAGED));
-      setTriagedPatient(triagedPatients);
-      setTreatmentPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.TREATMENT));
-      setTreatmentPatient(treatmentPatients);
-      setAdmittedPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.ADMITTED));
-      setPatientsAdmitted(admittedPatients);
-      setPendingInvestigations(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.INVESTIGATIONS_PENDING));
-      setPendingInvestigationPatient(pendingInvestigations);
-      setDischargedPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED));
-      setDischargedPatient(dischargedPatients);
-      setRegisteredPatients(queue.patients.filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED));
-      setRegisteredPatient(registeredPatients);
+      handleStateChange(queue);
     }
   }, [queue]);
 
@@ -122,6 +112,21 @@ export function AdminPage() {
     }
   };
 
+  const handleStateChange = (data: PatientsQueue) => {
+    setTriagedPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.TRIAGED));
+      setTriagedPatient(triagedPatients);
+      setTreatmentPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.TREATMENT));
+      setTreatmentPatient(treatmentPatients);
+      setAdmittedPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.ADMITTED));
+      setPatientsAdmitted(admittedPatients);
+      setPendingInvestigations(data.patients.filter(patient => patient.status.current_phase === PatientPhase.INVESTIGATIONS_PENDING));
+      setPendingInvestigationPatient(pendingInvestigations);
+      setDischargedPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED));
+      setDischargedPatient(dischargedPatients);
+      setRegisteredPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED));
+      setRegisteredPatient(registeredPatients);
+  }
+
   const handleCheckboxChange = (patientName: string) => {
     setSelectedPatients(prev => {
       const newSelectedPatients = new Set(prev);
@@ -134,10 +139,8 @@ export function AdminPage() {
     });
   };
 
-  const handleMoveUser = () => {
+  const handleMoveUser = async () => {
     if (newGroup) {
-      // Logic to move selected patients to the new group
-      // ...
       const updatedPatients = Array.from(selectedPatients).map(patientName => {
         const patient = queue.patients.find(p => p.name === patientName);
         if (patient) {
@@ -164,7 +167,10 @@ export function AdminPage() {
         }
       };
 
-      updatedPatients.forEach(updatePatient);
+      await Promise.all(updatedPatients.map(updatePatient));
+      const response = await fetch("/api/get");
+      const data = await response.json();
+      setQueue(data);
     }
   };
 
@@ -183,6 +189,7 @@ export function AdminPage() {
       }
 
       const refreshedData = await response.json();
+      console.log(refreshedData)
       setQueue(refreshedData);
       setShowCreatePanel(false);
     } catch (err) {
@@ -242,8 +249,8 @@ export function AdminPage() {
           <h3>Triage</h3>
           <ul ref={triaged} className="kanban-column">
             {triagedPatient
-              .map((patient) => (
-                <label className="kanban-item" key={patient.name}>
+              .map((patient, index) => (
+                <label className="kanban-item" key={index}>
                   <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
                   <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
                     {patient.name}
