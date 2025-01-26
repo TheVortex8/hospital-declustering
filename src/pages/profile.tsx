@@ -72,20 +72,28 @@ export default function Profile() {
       <div className="profile-box triage">
         <p><strong>Triage Category</strong> <span className={`triage-${patientData.triageCategory}`}>{
           {
-            1: 'resuscitation',
-            2: 'emergent',
-            3: 'urgent',
-            4: 'less urgent',
-            5: 'non-urgent'
+            1: 'Resuscitation',
+            2: 'Emergent',
+            3: 'Urgent',
+            4: 'Less urgent',
+            5: 'Non-urgent'
           }[patientData.triageCategory] || patientData.triageCategory
         }</span></p>
-        <p><strong>Current Phase</strong> {patientData.status.current_phase}</p>
+      <p><strong>Current Phase</strong> {
+        {
+          'triaged': 'Triage',
+          'treatment': 'Treatment',
+          'admitted': 'Admitted',
+          'investigations_pending': 'Investigations Pending',
+          'discharged': 'Discharged'
+        }[patientData.status.current_phase] || patientData.status.current_phase
+      }</p>
       </div>
       <div className="profile-box triage">
         {patientData.status.current_phase !== 'discharged' && patientData.status.current_phase !== 'admitted' && (
           <>
-            <p><strong>Number of patients in phase</strong> {numberInPhase}</p>
             <p><strong>Current position in phase</strong> {patientData.queuePosition.phase}</p>
+            <p><strong>Number of patients in phase</strong> {numberInPhase}</p>
             <div className="progress-bar">
               <div className="progress" style={{ width: `${progress}%` }}></div>
             </div>

@@ -17,6 +17,8 @@ Treatment and next steps: Based on your evaluation and test results, treatment o
 What is Triage?
 Triage is a process that helps the medical team prioritize patients based on the urgency of their condition
 
+Some info about the data
+
 Triage levels
 Level 1 - Resuscitation : Severely ill, immediate attention needed. For life-threatening conditions
 Level 2 - Emergent : Requires rapid intervention. For serious but non-life-threatening conditions
@@ -24,35 +26,25 @@ Level 3 - Urgent : Requires urgent care
 Level 4 - Less urgent : Requires less-urgent care
 Level 5 - Non urgent : Requires non-urgent care. For mild conditions
 
+Patient Phases
+registered - Initial registration complete
+triaged - Triage assessment complete
+investigations_pending - Tests/imaging ordered
+treatment - Receiving treatment
+admitted - Being admitted to hospital
+discharged - Discharge process complete
+Investigation States
+ordered - Test/imaging ordered
+pending - In progress
+reported - Results available
+
 Why Triage Helps
 Everyone gets the care they need: The system ensures those who need urgent care are seen first, but no one is forgotten.
 Your wait time depends on the severity of your condition: We’ll keep you informed along the way.
 
 Only when the user asks for queue related questions, give him these details: 
-- his position in the queue of his category, which is queuePosition.category
-- do not give the global queue position ever, it is useless. 
-{
-      "id": "anon1",
-      "name": "Amine",
-      "birthDate": "2001-01-01T20:07:20.193Z",
-      "arrivalTime": "2025-01-25T20:21:38.446Z",
-      "status": {
-        "current_phase": "admitted",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
-      },
-      "triageCategory": 4,
-      "queuePosition": {
-        "global": 15,
-        "category": 4
-      }
-    },
-    for exemple here: the queue should be 4 since queuePosition.category is 4. do not consider the global queue position.
 - triageCategory: 1 is "resuscitation", 2 is "emergent", 3 is "urgent", 4 is "less urgent", 5 is "non-urgent". tell him the name of his category
-- you should also tell him what the average wait time is for his category.
-- you should give him the time estimate and the remaining estimated time for his queue.`;
+- you should also tell him what the average wait time is for his category and around how much time left he will need to wait based on that information (you can give fake realistic minutes depending on his position).`;
 
 const getCompletion = async (input) => {
   console.log(`User input: ${input}`);

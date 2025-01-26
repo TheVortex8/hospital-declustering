@@ -1,152 +1,129 @@
 {
   "waitingCount": 20,
-  "longestWaitTime": 233,
+  "longuestWaitTimePerPhase": {
+    "triaged": 212,
+    "registered": 186,
+    "investigations_pending": 150,
+    "treatment": 284,
+    "admitted": 0,
+    "discharged": 234
+  },
   "categoryBreakdown": {
-    "1": 1,
-    "2": 2,
-    "3": 8,
+    "1": 2,
+    "2": 1,
+    "3": 10,
     "4": 6,
-    "5": 3
+    "5": 1
   },
   "averageWaitTimes": {
-    "1": 6,
-    "2": 20,
-    "3": 63,
-    "4": 133,
-    "5": 206
+    "1": 3,
+    "2": 25,
+    "3": 87,
+    "4": 174,
+    "5": 284
   },
   "patients": [
     {
-      "id": "anon0",
-      "name": "Lora Pacocha IV",
-      "birthDate": "1969-11-29T15:59:36.859Z",
-      "arrivalTime": "2025-01-25T21:46:38.445Z",
+      "id": "anon9",
+      "name": "Hilda Aufderhar",
+      "birthDate": "1957-02-26T15:49:53.995Z",
+      "arrivalTime": "2025-01-26T10:52:30.290Z",
       "status": {
-        "current_phase": "discharged",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
+        "current_phase": "triaged"
       },
-      "triageCategory": 1,
-      "queuePosition": {
-        "global": 1,
-        "category": 1
-      }
-    },
-    {
-      "id": "anon6",
-      "name": "Marian Bergnaum-Reilly",
-      "birthDate": "1962-06-28T09:28:44.387Z",
-      "arrivalTime": "2025-01-25T21:36:38.446Z",
-      "status": {
-        "current_phase": "discharged",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
-      },
-      "triageCategory": 2,
+      "triageCategory": 4,
       "queuePosition": {
         "global": 3,
-        "category": 2
+        "phase": 1,
+        "categoryInPhase": 1,
+        "categoryGlobal": 1
       }
     },
     {
-      "id": "anon15",
-      "name": "Ian Funk",
-      "birthDate": "1945-05-31T01:35:31.549Z",
-      "arrivalTime": "2025-01-25T20:22:38.447Z",
+      "id": "anon1",
+      "name": "Cecilia Wiegand",
+      "birthDate": "1975-12-08T14:03:03.867Z",
+      "arrivalTime": "2025-01-26T12:31:30.289Z",
       "status": {
-        "current_phase": "discharged",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
+        "current_phase": "triaged"
       },
-      "triageCategory": 3,
+      "triageCategory": 4,
       "queuePosition": {
-        "global": 4,
-        "category": 1
-      }
-    },
-    {
-      "id": "anon8",
-      "name": "Janis Pagac",
-      "birthDate": "1944-03-06T14:47:54.360Z",
-      "arrivalTime": "2025-01-25T20:31:38.446Z",
-      "status": {
-        "current_phase": "discharged",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
-      },
-      "triageCategory": 3,
-      "queuePosition": {
-        "global": 5,
-        "category": 2
+        "global": 8,
+        "phase": 2,
+        "categoryInPhase": 2,
+        "categoryGlobal": 2
       }
     },
     {
       "id": "anon4",
-      "name": "Leah Dietrich",
-      "birthDate": "1960-08-07T02:58:33.319Z",
-      "arrivalTime": "2025-01-25T20:34:38.446Z",
+      "name": "Herbert Upton",
+      "birthDate": "1993-05-28T22:18:52.426Z",
+      "arrivalTime": "2025-01-26T14:24:30.289Z",
       "status": {
-        "current_phase": "investigations_pending",
-        "investigations": {
-          "labs": "ordered",
-          "imaging": "ordered"
-        }
+        "current_phase": "registered"
       },
-      "triageCategory": 3,
+      "triageCategory": 1,
       "queuePosition": {
-        "global": 6,
-        "category": 3
+        "global": 20,
+        "phase": 1,
+        "categoryInPhase": 1,
+        "categoryGlobal": 1
+      }
+    },
+    {
+      "id": "anon18",
+      "name": "Dwight Greenfelder",
+      "birthDate": "1996-04-06T22:51:11.281Z",
+      "arrivalTime": "2025-01-26T13:59:30.290Z",
+      "status": {
+        "current_phase": "registered"
+      },
+      "triageCategory": 2,
+      "queuePosition": {
+        "global": 18,
+        "phase": 2,
+        "categoryInPhase": 1,
+        "categoryGlobal": 1
       }
     },
     {
       "id": "anon16",
-      "name": "Kate Hilpert",
-      "birthDate": "1980-08-29T10:47:31.280Z",
-      "arrivalTime": "2025-01-25T20:45:38.447Z",
+      "name": "Arthur Flatley",
+      "birthDate": "1995-10-08T00:49:39.467Z",
+      "arrivalTime": "2025-01-26T12:29:30.290Z",
       "status": {
-        "current_phase": "admitted",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
+        "current_phase": "registered"
       },
       "triageCategory": 3,
       "queuePosition": {
         "global": 7,
-        "category": 4
-      }
-    },
-    {
-      "id": "anon7",
-      "name": "Kerry Runolfsson",
-      "birthDate": "1948-11-29T00:08:05.601Z",
-      "arrivalTime": "2025-01-25T20:49:38.446Z",
-      "status": {
-        "current_phase": "admitted",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
-      },
-      "triageCategory": 3,
-      "queuePosition": {
-        "global": 8,
-        "category": 5
+        "phase": 3,
+        "categoryInPhase": 1,
+        "categoryGlobal": 1
       }
     },
     {
       "id": "anon17",
-      "name": "Miss Miriam Donnelly MD",
-      "birthDate": "1993-12-12T14:29:37.098Z",
-      "arrivalTime": "2025-01-25T21:00:38.447Z",
+      "name": "Philip Luettgen",
+      "birthDate": "1999-04-25T23:35:22.437Z",
+      "arrivalTime": "2025-01-26T11:18:30.290Z",
+      "status": {
+        "current_phase": "registered"
+      },
+      "triageCategory": 4,
+      "queuePosition": {
+        "global": 4,
+        "phase": 4,
+        "categoryInPhase": 1,
+        "categoryGlobal": 3
+      }
+    },
+    {
+      "id": "anon8",
+      "name": "Bill Kiehn",
+      "birthDate": "1963-08-21T19:42:27.153Z",
+      "arrivalTime": "2025-01-26T12:35:30.289Z",
       "status": {
         "current_phase": "investigations_pending",
         "investigations": {
@@ -157,16 +134,238 @@
       "triageCategory": 3,
       "queuePosition": {
         "global": 9,
-        "category": 6
+        "phase": 1,
+        "categoryInPhase": 1,
+        "categoryGlobal": 2
       }
     },
     {
       "id": "anon13",
-      "name": "Martin Quitzon",
-      "birthDate": "1976-09-03T10:10:25.019Z",
-      "arrivalTime": "2025-01-25T21:11:38.447Z",
+      "name": "Allison Purdy",
+      "birthDate": "1963-10-17T07:01:06.048Z",
+      "arrivalTime": "2025-01-26T12:36:30.290Z",
+      "status": {
+        "current_phase": "investigations_pending",
+        "investigations": {
+          "labs": "pending",
+          "imaging": "pending"
+        }
+      },
+      "triageCategory": 3,
+      "queuePosition": {
+        "global": 11,
+        "phase": 2,
+        "categoryInPhase": 2,
+        "categoryGlobal": 3
+      }
+    },
+    {
+      "id": "anon15",
+      "name": "Cecelia Corkery",
+      "birthDate": "1986-03-11T19:51:40.703Z",
+      "arrivalTime": "2025-01-26T12:58:30.290Z",
+      "status": {
+        "current_phase": "investigations_pending",
+        "investigations": {
+          "labs": "ordered",
+          "imaging": "pending"
+        }
+      },
+      "triageCategory": 3,
+      "queuePosition": {
+        "global": 13,
+        "phase": 3,
+        "categoryInPhase": 3,
+        "categoryGlobal": 4
+      }
+    },
+    {
+      "id": "anon7",
+      "name": "Alberta Gutkowski",
+      "birthDate": "1978-09-01T18:11:04.121Z",
+      "arrivalTime": "2025-01-26T13:21:30.289Z",
+      "status": {
+        "current_phase": "investigations_pending",
+        "investigations": {
+          "labs": "ordered",
+          "imaging": "ordered"
+        }
+      },
+      "triageCategory": 3,
+      "queuePosition": {
+        "global": 15,
+        "phase": 4,
+        "categoryInPhase": 4,
+        "categoryGlobal": 5
+      }
+    },
+    {
+      "id": "anon2",
+      "name": "Clara Rodriguez",
+      "birthDate": "1997-10-20T17:58:11.916Z",
+      "arrivalTime": "2025-01-26T13:32:30.289Z",
+      "status": {
+        "current_phase": "investigations_pending",
+        "investigations": {
+          "labs": "ordered",
+          "imaging": "pending"
+        }
+      },
+      "triageCategory": 3,
+      "queuePosition": {
+        "global": 16,
+        "phase": 5,
+        "categoryInPhase": 5,
+        "categoryGlobal": 6
+      }
+    },
+    {
+      "id": "anon6",
+      "name": "amine",
+      "birthDate": "2001-01-01T15:45:48.579Z",
+      "arrivalTime": "2025-01-26T13:42:30.289Z",
+      "status": {
+        "current_phase": "investigations_pending",
+        "investigations": {
+          "labs": "ordered",
+          "imaging": "pending"
+        }
+      },
+      "triageCategory": 3,
+      "queuePosition": {
+        "global": 17,
+        "phase": 6,
+        "categoryInPhase": 6,
+        "categoryGlobal": 7
+      }
+    },
+    {
+      "id": "anon0",
+      "name": "Miss Jodi Anderson DVM",
+      "birthDate": "1956-02-17T19:18:42.825Z",
+      "arrivalTime": "2025-01-26T11:55:30.288Z",
+      "status": {
+        "current_phase": "investigations_pending",
+        "investigations": {
+          "labs": "pending",
+          "imaging": "pending"
+        }
+      },
+      "triageCategory": 4,
+      "queuePosition": {
+        "global": 5,
+        "phase": 7,
+        "categoryInPhase": 1,
+        "categoryGlobal": 4
+      }
+    },
+    {
+      "id": "anon12",
+      "name": "Timothy Kessler",
+      "birthDate": "1958-09-06T22:43:56.921Z",
+      "arrivalTime": "2025-01-26T11:55:30.290Z",
+      "status": {
+        "current_phase": "investigations_pending",
+        "investigations": {
+          "labs": "ordered",
+          "imaging": "pending"
+        }
+      },
+      "triageCategory": 4,
+      "queuePosition": {
+        "global": 6,
+        "phase": 8,
+        "categoryInPhase": 2,
+        "categoryGlobal": 5
+      }
+    },
+    {
+      "id": "anon3",
+      "name": "Renee Hansen",
+      "birthDate": "1989-04-16T19:31:07.321Z",
+      "arrivalTime": "2025-01-26T12:42:30.289Z",
       "status": {
         "current_phase": "treatment",
+        "investigations": {
+          "labs": "reported",
+          "imaging": "reported"
+        }
+      },
+      "triageCategory": 3,
+      "queuePosition": {
+        "global": 12,
+        "phase": 1,
+        "categoryInPhase": 1,
+        "categoryGlobal": 8
+      }
+    },
+    {
+      "id": "anon10",
+      "name": "Latoya Armstrong",
+      "birthDate": "1967-08-26T10:37:35.173Z",
+      "arrivalTime": "2025-01-26T13:08:30.290Z",
+      "status": {
+        "current_phase": "treatment",
+        "investigations": {
+          "labs": "reported",
+          "imaging": "reported"
+        }
+      },
+      "triageCategory": 3,
+      "queuePosition": {
+        "global": 14,
+        "phase": 2,
+        "categoryInPhase": 2,
+        "categoryGlobal": 9
+      }
+    },
+    {
+      "id": "anon5",
+      "name": "Shirley Mitchell MD",
+      "birthDate": "1960-03-30T11:52:31.446Z",
+      "arrivalTime": "2025-01-26T09:41:30.289Z",
+      "status": {
+        "current_phase": "treatment",
+        "investigations": {
+          "labs": "reported",
+          "imaging": "reported"
+        }
+      },
+      "triageCategory": 5,
+      "queuePosition": {
+        "global": 1,
+        "phase": 3,
+        "categoryInPhase": 1,
+        "categoryGlobal": 1
+      }
+    },
+    {
+      "id": "anon19",
+      "name": "Darren Pfeffer",
+      "birthDate": "1986-02-16T01:55:19.074Z",
+      "arrivalTime": "2025-01-26T14:20:30.290Z",
+      "status": {
+        "current_phase": "discharged",
+        "investigations": {
+          "labs": "reported",
+          "imaging": "reported"
+        }
+      },
+      "triageCategory": 1,
+      "queuePosition": {
+        "global": 19,
+        "phase": 1,
+        "categoryInPhase": 1,
+        "categoryGlobal": 2
+      }
+    },
+    {
+      "id": "anon11",
+      "name": "Mr. Duane Blick",
+      "birthDate": "1996-07-05T15:32:16.154Z",
+      "arrivalTime": "2025-01-26T12:35:30.290Z",
+      "status": {
+        "current_phase": "discharged",
         "investigations": {
           "labs": "reported",
           "imaging": "reported"
@@ -175,92 +374,16 @@
       "triageCategory": 3,
       "queuePosition": {
         "global": 10,
-        "category": 7
+        "phase": 2,
+        "categoryInPhase": 1,
+        "categoryGlobal": 10
       }
     },
     {
-      "id": "anon11",
-      "name": "Forrest Morar",
-      "birthDate": "1961-03-03T09:51:07.686Z",
-      "arrivalTime": "2025-01-25T21:19:38.447Z",
-      "status": {
-        "current_phase": "discharged",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
-      },
-      "triageCategory": 3,
-      "queuePosition": {
-        "global": 11,
-        "category": 8
-      }
-    },
-    {
-      "id": "anon10",
-      "name": "Pearl Braun",
-      "birthDate": "1944-06-12T10:36:02.955Z",
-      "arrivalTime": "2025-01-25T18:00:38.447Z",
-      "status": {
-        "current_phase": "registered"
-      },
-      "triageCategory": 4,
-      "queuePosition": {
-        "global": 12,
-        "category": 1
-      }
-    },
-    {
-      "id": "anon19",
-      "name": "Dr. Mack Runolfsson",
-      "birthDate": "1973-12-30T14:09:03.820Z",
-      "arrivalTime": "2025-01-25T18:20:38.447Z",
-      "status": {
-        "current_phase": "registered"
-      },
-      "triageCategory": 4,
-      "queuePosition": {
-        "global": 13,
-        "category": 2
-      }
-    },
-    {
-      "id": "anon3",
-      "name": "Taylor Hessel",
-      "birthDate": "2003-01-10T02:12:32.342Z",
-      "arrivalTime": "2025-01-25T20:15:38.446Z",
-      "status": {
-        "current_phase": "registered"
-      },
-      "triageCategory": 4,
-      "queuePosition": {
-        "global": 14,
-        "category": 3
-      }
-    },
-    {
-      "id": "anon1",
-      "name": "Amine",
-      "birthDate": "2001-01-01T20:07:20.193Z",
-      "arrivalTime": "2025-01-25T20:21:38.446Z",
-      "status": {
-        "current_phase": "admitted",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
-      },
-      "triageCategory": 4,
-      "queuePosition": {
-        "global": 15,
-        "category": 4
-      }
-    },
-    {
-      "id": "anon18",
-      "name": "Kristy Heller",
-      "birthDate": "1982-03-10T10:15:59.485Z",
-      "arrivalTime": "2025-01-25T20:23:38.447Z",
+      "id": "anon14",
+      "name": "Estelle Windler",
+      "birthDate": "1987-05-19T22:28:31.065Z",
+      "arrivalTime": "2025-01-26T10:30:30.290Z",
       "status": {
         "current_phase": "discharged",
         "investigations": {
@@ -270,68 +393,10 @@
       },
       "triageCategory": 4,
       "queuePosition": {
-        "global": 16,
-        "category": 5
-      }
-    },
-    {
-      "id": "anon5",
-      "name": "Shane Cormier",
-      "birthDate": "1986-08-06T09:54:51.379Z",
-      "arrivalTime": "2025-01-25T20:30:38.446Z",
-      "status": {
-        "current_phase": "registered"
-      },
-      "triageCategory": 4,
-      "queuePosition": {
-        "global": 17,
-        "category": 6
-      }
-    },
-    {
-      "id": "anon2",
-      "name": "Caleb Durgan",
-      "birthDate": "2007-01-10T20:13:26.829Z",
-      "arrivalTime": "2025-01-25T17:59:38.446Z",
-      "status": {
-        "current_phase": "treatment",
-        "investigations": {
-          "labs": "reported",
-          "imaging": "reported"
-        }
-      },
-      "triageCategory": 5,
-      "queuePosition": {
-        "global": 18,
-        "category": 1
-      }
-    },
-    {
-      "id": "anon9",
-      "name": "Bernard Cremin",
-      "birthDate": "1970-09-01T08:32:28.558Z",
-      "arrivalTime": "2025-01-25T18:32:38.447Z",
-      "status": {
-        "current_phase": "triaged"
-      },
-      "triageCategory": 5,
-      "queuePosition": {
-        "global": 19,
-        "category": 2
-      }
-    },
-    {
-      "id": "anon12",
-      "name": "Homer Steuber",
-      "birthDate": "2000-07-15T04:37:21.294Z",
-      "arrivalTime": "2025-01-25T18:45:38.447Z",
-      "status": {
-        "current_phase": "registered"
-      },
-      "triageCategory": 5,
-      "queuePosition": {
-        "global": 20,
-        "category": 3
+        "global": 2,
+        "phase": 3,
+        "categoryInPhase": 1,
+        "categoryGlobal": 6
       }
     }
   ]
