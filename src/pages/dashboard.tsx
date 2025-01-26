@@ -49,6 +49,13 @@ const Dashboard: React.FC = () => {
         </button>
         <button 
           style={buttonStyle}
+          onClick={() => navigate('/info')}
+        >
+          Knowledge Center
+        </button>
+
+        <button 
+          style={buttonStyle}
           onClick={() => navigate('/games')}
         >
           Games
