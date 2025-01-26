@@ -1,155 +1,134 @@
-import React from "react";
-import { useDragAndDrop } from "@formkit/drag-and-drop/react";
-import logo from "../assets/logo.png";
-import "../styles/adminPage.css";
-import { Badge } from "../components/Badge";
+import { useEffect, useState } from "react";
+import "../styles/AdminPage.css";
+import Badge from "../components/Toast"; // Import the Badge component
+import { PatientPhase, PatientsQueue } from "../../types/patient";
 
 export function AdminPage() {
-  // Separate initial data for each list
-  const patientsTriaged = [
-    "John Doe",
-    "Jane Smith",
-    "Emily Davis",
-    "James Miller",
-    "Sophia Wilson",
-    "Michael Brown",
-  ];
+  const [queue, setQueue] = useState<PatientsQueue>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const admittedPatients = ["William Scott", "Emma Thomas"];
-  const treatmentPatients = ["Oliver Harris"];
-  const dischargedPatients = ["Sophia Johnson"];
-  const pendingInvestigations = ["Ethan Walker"];
-  const registeredPatients = ["Anna Baker", "Chris Evans"];
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await fetch("http://localhost:8888/api/get");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        setQueue(data); // Set the fetched data to the state
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
 
-  // Hooks for each list
-  const [triageList, triage] = useDragAndDrop<HTMLUListElement, string>(
-    patientsTriaged,
-    { group: "todoList" }
-  );
+    fetchPatients();
+    console.log(queue);
+  }, []);
 
-  const [admittedList, admitted] = useDragAndDrop<HTMLUListElement, string>(
-    admittedPatients,
-    { group: "todoList" }
-  );
+  const getBadgeStyle = (status) => {
+    switch (status) {
+      case "ordered":
+        return { border: "2px solid #6c757d" }; // Gray border
+      case "pending":
+        return { border: "2px solid #ffc107" }; // Yellow border
+      case "reported":
+        return { border: "2px solid #28a745" }; // Green border
+      default:
+        return { border: "2px solid #6c757d" }; // Default Gray border
+    }
+  };
 
-  const [treatmentList, treatment] = useDragAndDrop<HTMLUListElement, string>(
-    treatmentPatients,
-    { group: "todoList" }
-  );
-
-  const [dischargedList, discharged] = useDragAndDrop<HTMLUListElement, string>(
-    dischargedPatients,
-    { group: "todoList" }
-  );
-
-  const [investigationsPendingList, investigationsPending] =
-    useDragAndDrop<HTMLUListElement, string>(pendingInvestigations, {
-      group: "todoList",
-    });
-
-  const [registeredList, registered] = useDragAndDrop<HTMLUListElement, string>(
-    registeredPatients,
-    { group: "todoList" }
-  );
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="admin-container">
-    <div className="kanban-board">
-      {/* Triage */}
-      <div className="group-container">
-        <h3 className="group-title">Registered</h3>
-        <ul ref={triageList} className="kanban-column">
-          {triage.map((todo) => (
-            <li className="kanban-item" key={todo}>
-              {todo}
-              <div className="badge-container">
-                <Badge color="red" text="Critical" />
-                <Badge color="red" text="Critical" />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div>
+      <h1>Admin Dashboard</h1>
+      <div className="kanban-board">
+        {/* Triage */}
+        <div>
+          <h3>Triage</h3>
+          <ul className="kanban-column">
+            {queue.patients && queue.patients
+              .filter(patient => patient.status.current_phase === PatientPhase.TRIAGED)
+              .map((patient) => (
+                <li className="kanban-item" key={patient.name}>
+                  {patient.name}
+                  <Badge label={patient.status.current_phase} style={getBadgeStyle(patient.status)} />
+                </li>
+              ))}
+          </ul>
+        </div>
 
-      {/* Admitted */}
-      <div className="group-container">
-      <h3 className="group-title">Triaged</h3>
-        <ul ref={admittedList} className="kanban-column">
-          {admitted.map((admittedPatient) => (
-            <li className="kanban-item" key={admittedPatient}>
-              {admittedPatient}
-              <div className="badge-container">
-                <Badge color="red" text="Critical" />
-                <Badge color="red" text="Critical" />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+        {/* Admitted */}
+        <div>
+          <h3>Admitted</h3>
+          <ul className="kanban-column">
+            {queue.admitted && queue.admitted.map((patient) => (
+              <li className="kanban-item" key={patient.name}>
+                {patient.name}
+                <Badge label={patient.status} style={getBadgeStyle(patient.status)} />
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* Treatment */}
-      <div className="group-container">
-      <h3 className="group-title">Investigations Pending</h3>
-        <ul ref={treatmentList} className="kanban-column">
-          {treatment.map((treatmentPatient) => (
-            <li className="kanban-item" key={treatmentPatient}>
-              {treatmentPatient}
-              <div className="badge-container">
-                <Badge color="red" text="Critical" />
-                <Badge color="red" text="Critical" />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {/* Pending Investigations */}
-      <div className="group-container">
-      <h3 className="group-title">Treatment</h3>
-        <ul ref={investigationsPendingList} className="kanban-column">
-          {investigationsPending.map((pendingInvestigation) => (
-            <li className="kanban-item" key={pendingInvestigation}>
-              {pendingInvestigation}
-              <div className="badge-container">
-                <Badge color="red" text="Critical" />
-                <Badge color="red" text="Critical" />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+        {/* Treatment */}
+        <div>
+          <h3>Treatment</h3>
+          <ul className="kanban-column">
+            {queue.treatment && queue.treatment.map((patient) => (
+              <li className="kanban-item" key={patient.name}>
+                {patient.name}
+                <Badge label={patient.status} style={getBadgeStyle(patient.status)} />
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* Discharged */}
-      <div className="group-container">
-      <h3 className="group-title">Admitted</h3>
-        <ul ref={dischargedList} className="kanban-column">
-          {discharged.map((dischargedPatient) => (
-            <li className="kanban-item" key={dischargedPatient}>
-              {dischargedPatient}
-              <div className="badge-container">
-                <Badge color="red" text="Critical" />
-                <Badge color="red" text="Critical" />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+        {/* Pending Investigations */}
+        <div>
+          <h3>Pending Investigations</h3>
+          <ul className="kanban-column">
+            {queue.pendingInvestigations && queue.pendingInvestigations.map((patient) => (
+              <li className="kanban-item" key={patient.name}>
+                {patient.name}
+                <Badge label={patient.status} style={getBadgeStyle(patient.status)} />
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* Registered */}    
-      <div className="group-container">
-      <h3 className="group-title">Discharged</h3>
-        <ul ref={registeredList} className="kanban-column">
-          {registered.map((registeredPatient) => (
-            <li className="kanban-item" key={registeredPatient}>
-              {registeredPatient}
-              <div className="badge-container">
-                <Badge color="red" text="Critical" />
-                <Badge color="red" text="Critical" />
-              </div>
-            </li>
-          ))}
-        </ul>
+        {/* Discharged */}
+        <div>
+          <h3>Discharged</h3>
+          <ul className="kanban-column">
+            {queue.discharged && queue.discharged.map((patient) => (
+              <li className="kanban-item" key={patient.name}>
+                {patient.name}
+                <Badge label={patient.status} style={getBadgeStyle(patient.status)} />
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Registered */}
+        <div>
+          <h3>Registered</h3>
+          <ul className="kanban-column">
+            {queue.registered && queue.registered.map((patient) => (
+              <li className="kanban-item" key={patient.name}>
+                {patient.name}
+                <Badge label={patient.status} style={getBadgeStyle(patient.status)} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
   );
 }
