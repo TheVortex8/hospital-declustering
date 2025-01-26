@@ -12,7 +12,6 @@ const Dashboard: React.FC = () => {
 
   const buttonStyle = {
     padding: '10px',
-    margin: '10px',
     width: '100%',
     minHeight: '10px',
     fontSize: '16px',
@@ -27,13 +26,12 @@ const Dashboard: React.FC = () => {
 
   const gridStyle = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gridTemplateRows: 'repeat(2, 1fr)',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
     gap: '15px',
-    padding: '15px',
     width: '95%',
     maxWidth: '600px',
     margin: '0 auto',
+    placeItems: 'center',
   };
 
   return (
@@ -47,6 +45,12 @@ const Dashboard: React.FC = () => {
           onClick={() => navigate('/games')}
         >
           Games
+        </button>
+        <button 
+          style={buttonStyle}
+          onClick={() => navigate('/chatbox')}
+        >
+          QuickPulse AI
         </button>
       </div>
     </div>

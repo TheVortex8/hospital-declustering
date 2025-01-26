@@ -8,6 +8,7 @@ import WhackAMole from "./pages/whackeAMole";
 import Dashboard from "./pages/dashboard";
 import Games from "./pages/games";
 import Wordle from "./pages/wordle";
+import Chatbox from "./pages/chatbox";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/games" element={<Games />} />
           <Route path="/whackeamole" element={<WhackAMole />} />
           <Route path="/wordle" element={<Wordle />} />
+          <Route path="/chatbox" element={<Chatbox />} />
         </Routes>
     </Router>
   );
