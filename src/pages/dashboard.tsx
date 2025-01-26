@@ -70,7 +70,7 @@ const Dashboard: React.FC = () => {
         </button>
         <button 
           style={buttonStyle}
-          onClick={() => navigate('/info')}
+          onClick={() => navigate('/knowledgeCenter')}
         >
           <span style={iconStyle}>
           <FaBook size={24} color='#78B3CE' style={{backgroundColor:'#555', padding: '1rem', borderRadius: '50%'}}/> {/* Add icon */}

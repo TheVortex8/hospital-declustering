@@ -3,7 +3,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
-import { AdminPage } from "./pages/adminPage";
 import WhackAMole from "./pages/whackeAMole";
 import Dashboard from "./pages/dashboard";
 import Games from "./pages/games";
@@ -11,7 +10,15 @@ import Wordle from "./pages/wordle";
 import Chatbox from "./pages/chatbox";
 import Profile from "./pages/profile";
 import Feedback from "./pages/feedback";
-import MoreInfo from "./pages/info";
+import TriageInfo from "./pages/TriageInfo";
+import { AdminPage } from "./pages/adminPage";
+import KnowledgeCenter from "./pages/KnowledgeCenter";
+import MedicalTestInfo from "./pages/MedicalTestInfo";
+import EmergencyCareProcess from "./pages/EmergencyCareProcess";
+import BeforeERVisitInfo from "./pages/BeforeERVisitInfo";
+import HealthyLifeStyleInfo from "./pages/HealthyLifeStyleInfo";
+import ResourcesInfo from "./pages/ResourcesInfo";
+import TestInfo from "./pages/TestInfo";
 
 function App() {
   return (
@@ -35,7 +42,16 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/chatbox" element={<Chatbox />} />
           <Route path="/feedback" element={<Feedback />} />
-          <Route path="/info" element={<MoreInfo />} />
+          <Route path="/triageInfo" element={<TriageInfo />} />
+          <Route path="/knowledgeCenter" element={<KnowledgeCenter/>} />
+          <Route path="/medicalTestInfo" element={<MedicalTestInfo/>} />
+          <Route path="/emergencyCareProcess" element={<EmergencyCareProcess/>} />
+          <Route path="/ERVisitInfo" element={<BeforeERVisitInfo/>} />
+          <Route path="/healthyLifeStyleInfo" element={<HealthyLifeStyleInfo/>} />
+          <Route path="/resourcesInfo" element={<ResourcesInfo/>} />
+          <Route path="/test" element={<TestInfo/>} />
+          
+
         </Routes>
     </Router>
   );

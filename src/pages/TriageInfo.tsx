@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MoreInfo: React.FC = () => {
+const TriageInfo: React.FC = () => {
   return (
     <div className="container" style={{
       maxHeight: '100vh',
@@ -20,7 +20,7 @@ const MoreInfo: React.FC = () => {
         border: 'none',
         cursor: 'pointer',
       }}
-      onClick={() => window.location.href = '/dashboard'}
+      onClick={() => window.location.href = '/knowledgeCenter'}
     >
       Back
     </button>
@@ -48,4 +48,4 @@ const MoreInfo: React.FC = () => {
   );
 };
 
-export default MoreInfo;
+export default TriageInfo;
