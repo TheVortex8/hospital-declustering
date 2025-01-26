@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import FeedbackTile from '../components/FeedbackTile';
 
 const WhackAMole = () => {
   const [moles, setMoles] = useState(Array(9).fill(false));
@@ -108,6 +109,7 @@ const WhackAMole = () => {
           </button>
         )}
       </div>
+      <FeedbackTile/>
     </div>
   );
 };

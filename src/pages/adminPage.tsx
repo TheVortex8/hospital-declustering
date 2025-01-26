@@ -26,46 +26,128 @@ export function AdminPage() {
   const [pendingInvestigations, setPendingInvestigations] = useState<Patient[]>([]);
   const [dischargedPatients, setDischargedPatients] = useState<Patient[]>([]);
   const [registeredPatients, setRegisteredPatients] = useState<Patient[]>([]);
+  const [dragged, setDragged] = useState<Patient | null>(null);
 
   const [triaged, triagedPatient, setTriagedPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     triagedPatients,
     {
       group: "triaged",
+      onDragstart(data) {
+        setDragged(data.draggedNodes[0].data.value as Patient);
+      },
+      handleParentDrop(data) {
+        const patient = dragged;
+        if (!patient) return;
+        const newPhase = data.targetData.parent.data.enabledNodes[0].data.value.status.current_phase;
+        console.log(patient)
+        console.log(newPhase)
+        updatePatientPhase(patient, newPhase)
+
+        
+      },
     }
   );
+
   const [treatment, treatmentPatient, setTreatmentPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     treatmentPatients,
     {
       group: "triaged",
+      onDragstart(data) {
+        setDragged(data.draggedNodes[0].data.value as Patient);
+      },
+      handleParentDrop(data) {
+        const patient = dragged;
+        if (!patient) return;
+        const newPhase = data.targetData.parent.data.enabledNodes[0].data.value.status.current_phase;
+        console.log(patient)
+        console.log(newPhase)
+        updatePatientPhase(patient, newPhase)
+
+        
+      },
     }
   );
   const [admitted, patientsAdmitted, setPatientsAdmitted] = useDragAndDrop<HTMLUListElement, Patient>(
     admittedPatients,
     {
       group: "triaged",
+      onDragstart(data) {
+        setDragged(data.draggedNodes[0].data.value as Patient);
+      },
+      handleParentDrop(data) {
+        const patient = dragged;
+        if (!patient) return;
+        const newPhase = data.targetData.parent.data.enabledNodes[0].data.value.status.current_phase;
+        console.log(patient)
+        console.log(newPhase)
+        updatePatientPhase(patient, newPhase)
+
+        
+      },
     }
   );
   const [pendingInvestigation, pendingInvestigationPatient, setPendingInvestigationPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     pendingInvestigations,
     {
       group: "triaged",
+      onDragstart(data) {
+        setDragged(data.draggedNodes[0].data.value as Patient);
+      },
+      handleParentDrop(data) {
+        const patient = dragged;
+        if (!patient) return;
+        const newPhase = data.targetData.parent.data.enabledNodes[0].data.value.status.current_phase;
+        console.log(patient)
+        console.log(newPhase)
+        updatePatientPhase(patient, newPhase)
+
+        
+      },
     }
   );
   const [discharged, dischargedPatient, setDischargedPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     dischargedPatients,
     {
       group: "triaged",
+      onDragstart(data) {
+        setDragged(data.draggedNodes[0].data.value as Patient);
+      },
+      handleParentDrop(data) {
+        const patient = dragged;
+        if (!patient) return;
+        const newPhase = data.targetData.parent.data.enabledNodes[0].data.value.status.current_phase;
+        console.log(patient)
+        console.log(newPhase)
+        updatePatientPhase(patient, newPhase)
+
+        
+      },
     }
   );
   const [registered, registeredPatient, setRegisteredPatient] = useDragAndDrop<HTMLUListElement, Patient>(
     registeredPatients,
     {
       group: "triaged",
+      onDragstart(data) {
+        setDragged(data.draggedNodes[0].data.value as Patient);
+      },
+      handleParentDrop(data) {
+        const patient = dragged;
+        if (!patient) return;
+        const newPhase = data.targetData.parent.data.enabledNodes[0].data.value.status.current_phase;
+        console.log(patient)
+        console.log(newPhase)
+        updatePatientPhase(patient, newPhase)
+
+        
+      },
     }
   );
 
   useEffect(() => {
+    console.log('non')
     if (queue) {
+      console.log('oui')
       handleStateChange(queue);
     }
   }, [queue]);
@@ -113,18 +195,25 @@ export function AdminPage() {
   };
 
   const handleStateChange = (data: PatientsQueue) => {
+
     setTriagedPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.TRIAGED));
-      setTriagedPatient(triagedPatients);
+    setTriagedPatient(triagedPatients);
+
       setTreatmentPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.TREATMENT));
       setTreatmentPatient(treatmentPatients);
+      
       setAdmittedPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.ADMITTED));
       setPatientsAdmitted(admittedPatients);
+      
       setPendingInvestigations(data.patients.filter(patient => patient.status.current_phase === PatientPhase.INVESTIGATIONS_PENDING));
       setPendingInvestigationPatient(pendingInvestigations);
+      
       setDischargedPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED));
       setDischargedPatient(dischargedPatients);
-      setRegisteredPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED));
+      
+      setRegisteredPatients(data.patients.filter(patient => patient.status.current_phase === PatientPhase.REGISTERED));
       setRegisteredPatient(registeredPatients);
+
   }
 
   const handleCheckboxChange = (patientName: string) => {
@@ -140,38 +229,56 @@ export function AdminPage() {
   };
 
   const handleMoveUser = async () => {
+    console.log(newGroup)
     if (newGroup) {
       const updatedPatients = Array.from(selectedPatients).map(patientName => {
         const patient = queue.patients.find(p => p.name === patientName);
+        console.log(patient)
         if (patient) {
-          return { ...patient, status: { ...patient.status, current_phase: newGroup as PatientPhase } };
+          updatePatientPhase({ ...patient, status: { ...patient.status, current_phase: newGroup as PatientPhase } }, newGroup)
         }
         return null;
       }).filter(Boolean);
 
-      const updatePatient = async (patient) => {
-        try {
-          const response = await fetch("/api/update", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(patient),
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-        } catch (err) {
-          console.error("Failed to update patient:", err);
-        }
-      };
-
-      await Promise.all(updatedPatients.map(updatePatient));
+      console.log(updatedPatients)
       const response = await fetch("/api/get");
       const data = await response.json();
+      console.log(data)
       setQueue(data);
     }
+  };
+
+  const handleDeleteUser = async () => {
+    const updatedPatients = Array.from(selectedPatients).map(patientName => {
+      const patient = queue.patients.find(p => p.name === patientName);
+      if (patient) {
+        return patient;
+      }
+      return null;
+    }).filter(Boolean);
+
+    const deletePatient = async (patient) => {
+      try {
+        const response = await fetch("/api/delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(patient),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } catch (err) {
+        console.error("Failed to delete patient:", err);
+      }
+    };
+
+    await Promise.all(updatedPatients.map(deletePatient));
+    const response = await fetch("/api/get");
+    const data = await response.json();
+    setQueue(data);
   };
 
   const handleCreatePatient = async () => {
@@ -197,6 +304,26 @@ export function AdminPage() {
     }
   };
 
+  const updatePatientPhase = async (patient: Patient, newPhase: PatientPhase) => {
+    const updatedPatient = { ...patient, status: { ...patient.status, current_phase: newPhase } };
+    console.log(updatedPatient)
+    try {
+      const response = await fetch("/api/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedPatient),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (err) {
+      console.error("Failed to update patient phase:", err);
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
   const triage = ["Resuscitation", "Emergent", "Urgent", "Less Urgent", "Non Urgent"];
@@ -217,6 +344,7 @@ export function AdminPage() {
               <option value={PatientPhase.DISCHARGED}>Discharged</option>
             </select>
             <button onClick={handleMoveUser}>Move</button>
+            <button onClick={handleDeleteUser}>Delete</button> {/* Add this line */}
           </>
         )}
       </div>

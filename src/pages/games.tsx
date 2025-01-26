@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { FaHammer, FaPuzzlePiece } from 'react-icons/fa'; // Import icons
+import FeedbackTile from '../components/FeedbackTile';
 
 const Games: React.FC = () => {
   const navigate = useNavigate();
@@ -81,6 +82,7 @@ const Games: React.FC = () => {
           </div>
         </button>
       </div>
+      <FeedbackTile/>
     </div>
   );
 };

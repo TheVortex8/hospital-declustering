@@ -59,8 +59,6 @@ function App() {
           <Route path="/healthyLifeStyleInfo" element={<HealthyLifeStyleInfo/>} />
           <Route path="/resourcesInfo" element={<ResourcesInfo/>} />
           <Route path="/test" element={<TestInfo/>} />
-          
-
         </Routes>
     </Router>
   );

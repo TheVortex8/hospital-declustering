@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { FaUser, FaGamepad, FaComments, FaBook } from 'react-icons/fa'; // Import icons
+import FeedbackTile from '../components/FeedbackTile';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -97,6 +98,7 @@ const Dashboard: React.FC = () => {
           </span>
         </button>
       </div>
+      <FeedbackTile></FeedbackTile>
     </div>
   );
 };

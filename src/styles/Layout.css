@@ -1,0 +1,19 @@
+/* filepath: /home/moh/projects/hospital-declustering/src/styles/Layout.css */
+.layout {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback-badge {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/wordle.css";
+import FeedbackTile from "../components/FeedbackTile";
 
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 6;
@@ -147,6 +148,7 @@ const App: React.FC = () => {
         <h2 className="h1">{localStorage.getItem("patientName")} - Score: {score}</h2>
         
       </div>
+      <FeedbackTile/>
     </div>
   );
 };
