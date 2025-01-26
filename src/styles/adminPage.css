@@ -55,7 +55,7 @@ h1 {
   gap: 20px;
   padding: 20px;
   width: calc(100% - 40px);
-  height: 100%;
+  height: 85%;
   overflow: hidden;
   color: #f0f0f0;
   overflow-x: auto;
@@ -118,6 +118,34 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
+.kanban-item input[type="checkbox"] {
+  background-color: #ffffff;
+  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 1px solid #ccc; /* Add border to ensure visibility */
+  appearance: none; /* Remove default styling */
+  -webkit-appearance: none; /* Remove default styling for Safari */
+  position: relative;
+}
+
+.kanban-item input[type="checkbox"]:checked {
+  background-color: #007bff; /* Change background color when checked */
+  border: 1px solid #007bff; /* Change border color when checked */
+}
+
+.kanban-item input[type="checkbox"]:checked::after {
+  content: '✔';
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /* Scroll Behavior */
 .kanban-board {
   overflow-x: auto;
@@ -171,4 +199,105 @@ h3 {
     transform: scale(1.05);
   }
  
+}
+
+.floating-navbar {
+  height: 50px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.floating-navbar button,
+.floating-navbar select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.floating-navbar select {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.floating-navbar button:hover,
+.floating-navbar select:hover {
+  background-color: #0056b3;
+}
+
+.create-patient-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 300px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1001;
+}
+
+.create-patient-panel.open {
+  right: 0;
+}
+
+.create-patient-panel h2 {
+  margin-top: 0;
+}
+
+.create-patient-panel label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.create-patient-panel input[type="text"],
+.create-patient-panel input[type="datetime-local"],
+.create-patient-panel input[type="date"],
+.create-patient-panel select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.create-patient-panel button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.create-patient-panel button:hover {
+  background-color: #0056b3;
+}
+
+.container > div {
+  /* Styles for the direct child div of .container */
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

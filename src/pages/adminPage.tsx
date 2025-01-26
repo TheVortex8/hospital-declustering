@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
 import "../styles/adminPage.css";
 import { Badge } from "../components/Badge"; // Import the Badge component
-import { Patient, PatientPhase, PatientsQueue } from "../../types/patient";
+import { Patient, PatientPhase, PatientsQueue, TriageCategory } from "../../types/patient";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react"
 
 export function AdminPage() {
   const [queue, setQueue] = useState<PatientsQueue>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedPatients, setSelectedPatients] = useState<Set<string>>(new Set());
+  const [newGroup, setNewGroup] = useState<PatientPhase | "">("");
+  const [showCreatePanel, setShowCreatePanel] = useState(false);
+  const [newPatient, setNewPatient] = useState({
+    name: "",
+    arrivalTime: new Date(),
+    birthDate: new Date(),
+    triageCategory: TriageCategory.NON_URGENT,
+    status: { current_phase: PatientPhase.REGISTERED }
+  });
 
-   
-
-  
   const [triagedPatients, setTriagedPatients] = useState<Patient[]>([]);
   const [treatmentPatients, setTreatmentPatients] = useState<Patient[]>([]);
   const [admittedPatients, setAdmittedPatients] = useState<Patient[]>([]);
@@ -72,11 +79,8 @@ export function AdminPage() {
       setRegisteredPatient(registeredPatients);
     }
   }, [queue]);
-  
-
 
   useEffect(() => {
-    
     const fetchPatients = async () => {
       try {
         const response = await fetch("/api/get")
@@ -84,7 +88,6 @@ export function AdminPage() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
         setQueue(data); // Set the fetched data to the state
         setLoading(false);
       } catch (err) {
@@ -94,7 +97,6 @@ export function AdminPage() {
     };
 
     fetchPatients();
-    console.log(queue);
   }, []);
 
   const getBadgeStyle = (status) => {
@@ -114,9 +116,77 @@ export function AdminPage() {
       case 4:
         return { border: "#28a745" }; // Green border
       case 5:
-        return { border: "#ffffff" }; // White border
+        return { border: "#f8f9fa" }; // Light gray border
       default:
         return { border: "#6c757d" }; // Default Gray border
+    }
+  };
+
+  const handleCheckboxChange = (patientName: string) => {
+    setSelectedPatients(prev => {
+      const newSelectedPatients = new Set(prev);
+      if (newSelectedPatients.has(patientName)) {
+        newSelectedPatients.delete(patientName);
+      } else {
+        newSelectedPatients.add(patientName);
+      }
+      return newSelectedPatients;
+    });
+  };
+
+  const handleMoveUser = () => {
+    if (newGroup) {
+      // Logic to move selected patients to the new group
+      // ...
+      const updatedPatients = Array.from(selectedPatients).map(patientName => {
+        const patient = queue.patients.find(p => p.name === patientName);
+        if (patient) {
+          return { ...patient, status: { ...patient.status, current_phase: newGroup as PatientPhase } };
+        }
+        return null;
+      }).filter(Boolean);
+
+      const updatePatient = async (patient) => {
+        try {
+          const response = await fetch("/api/update", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(patient),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        } catch (err) {
+          console.error("Failed to update patient:", err);
+        }
+      };
+
+      updatedPatients.forEach(updatePatient);
+    }
+  };
+
+  const handleCreatePatient = async () => {
+    try {
+      const response = await fetch("/api/insert", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPatient),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const refreshedData = await response.json();
+      setQueue(refreshedData);
+      setShowCreatePanel(false);
+    } catch (err) {
+      console.error("Failed to create patient:", err);
     }
   };
 
@@ -127,25 +197,64 @@ export function AdminPage() {
   return (
     <div>
       <h1>Admin Dashboard</h1>
+      <div className="floating-navbar">
+        <button onClick={() => setShowCreatePanel(true)}>Create User</button>
+        {selectedPatients.size > 0 && (
+          <>
+            <select onChange={(e) => setNewGroup(e.target.value as PatientPhase)}>
+              <option value="">Move User To...</option>
+              <option value={PatientPhase.TRIAGED}>Triage</option>
+              <option value={PatientPhase.TREATMENT}>Treatment</option>
+              <option value={PatientPhase.ADMITTED}>Admitted</option>
+              <option value={PatientPhase.INVESTIGATIONS_PENDING}>Pending Investigations</option>
+              <option value={PatientPhase.DISCHARGED}>Discharged</option>
+            </select>
+            <button onClick={handleMoveUser}>Move</button>
+          </>
+        )}
+      </div>
+      <div className={`create-patient-panel ${showCreatePanel ? "open" : ""}`}>
+        <h2>Create Patient</h2>
+        <label>
+          Name:
+          <input type="text" value={newPatient.name} onChange={(e) => setNewPatient({ ...newPatient, name: e.target.value })} />
+        </label>
+        <label>
+          Birth Date:
+          <input type="date" value={newPatient.birthDate.toISOString().slice(0, 10)} onChange={(e) => setNewPatient({ ...newPatient, birthDate: new Date(e.target.value) })} />
+        </label>
+        <label>
+          Triage Category:
+          <select value={newPatient.triageCategory} onChange={(e) => setNewPatient({ ...newPatient, triageCategory: parseInt(e.target.value) as TriageCategory })}>
+            <option value={TriageCategory.RESUSCITATION}>Resuscitation</option>
+            <option value={TriageCategory.EMERGENT}>Emergent</option>
+            <option value={TriageCategory.URGENT}>Urgent</option>
+            <option value={TriageCategory.LESS_URGENT}>Less Urgent</option>
+            <option value={TriageCategory.NON_URGENT}>Non Urgent</option>
+          </select>
+        </label>
+        <button onClick={handleCreatePatient}>Create</button>
+        <button onClick={() => setShowCreatePanel(false)}>Cancel</button>
+      </div>
       <div className="kanban-board">
         {/* Triage */}
         <div>
           <h3>Triage</h3>
-          <ul ref={triaged}className="kanban-column">
+          <ul ref={triaged} className="kanban-column">
             {triagedPatient
               .map((patient) => (
-                <li className="kanban-item" key={patient.name}>
-                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
-                  {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
-                </span>
-                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
-                  {patient.status.investigations && (
-                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
-                  )}
-                    
+                <label className="kanban-item" key={patient.name}>
+                  <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
+                  <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+                    {patient.name}
+                    <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
                   </span>
-              </li>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                    {patient.status.investigations && (
+                      <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                    )}
+                  </span>
+                </label>
               ))}
           </ul>
         </div>
@@ -153,21 +262,21 @@ export function AdminPage() {
         {/* Admitted */}
         <div>
           <h3>Admitted</h3>
-          <ul ref={admitted}className="kanban-column">
+          <ul ref={admitted} className="kanban-column">
             {
-             patientsAdmitted .map((patient) => (
-              <li className="kanban-item" key={patient.name}>
-              <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
-                {patient.name}
-                <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
-              </span>
-                <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
-                {patient.status.investigations && (
-                  <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
-                )}
-                  
-                </span>
-            </li>
+             patientsAdmitted.map((patient) => (
+                <label className="kanban-item" key={patient.name}>
+                  <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
+                  <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+                    {patient.name}
+                    <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
+                  </span>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                    {patient.status.investigations && (
+                      <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                    )}
+                  </span>
+                </label>
               ))}
           </ul>
         </div>
@@ -178,18 +287,18 @@ export function AdminPage() {
           <ul ref={treatment} className="kanban-column">
             {treatmentPatient
               .map((patient) => (
-                <li className="kanban-item" key={patient.name}>
-                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
-                  {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
-                </span>
-                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
-                  {patient.status.investigations && (
-                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
-                  )}
-                    
+                <label className="kanban-item" key={patient.name}>
+                  <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
+                  <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+                    {patient.name}
+                    <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
                   </span>
-              </li>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                    {patient.status.investigations && (
+                      <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                    )}
+                  </span>
+                </label>
               ))}
           </ul>
         </div>
@@ -200,18 +309,18 @@ export function AdminPage() {
           <ul ref={pendingInvestigation} className="kanban-column">
             {pendingInvestigationPatient
               .map((patient) => (
-                <li className="kanban-item" key={patient.name}>
-                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
-                  {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
-                </span>
-                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
-                  {patient.status.investigations && (
-                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
-                  )}
-                    
+                <label className="kanban-item" key={patient.name}>
+                  <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
+                  <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+                    {patient.name}
+                    <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
                   </span>
-              </li>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                    {patient.status.investigations && (
+                      <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                    )}
+                  </span>
+                </label>
               ))}
           </ul>
         </div>
@@ -219,21 +328,21 @@ export function AdminPage() {
         {/* Discharged */}
         <div>
           <h3>Discharged</h3>
-          <ul ref={discharged}className="kanban-column">
+          <ul ref={discharged} className="kanban-column">
             {dischargedPatient
               .map((patient) => (
-                <li className="kanban-item" key={patient.name}>
-                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
-                  {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
-                </span>
-                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
-                  {patient.status.investigations && (
-                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
-                  )}
-                    
+                <label className="kanban-item" key={patient.name}>
+                  <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
+                  <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+                    {patient.name}
+                    <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
                   </span>
-              </li>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                    {patient.status.investigations && (
+                      <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                    )}
+                  </span>
+                </label>
               ))}
           </ul>
         </div>
@@ -241,21 +350,21 @@ export function AdminPage() {
         {/* Registered */}
         <div>
           <h3>Registered</h3>
-          <ul ref={registered}className="kanban-column">
+          <ul ref={registered} className="kanban-column">
             {registeredPatient
               .map((patient) => (
-                <li className="kanban-item" key={patient.name}>
-                <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
-                  {patient.name}
-                  <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
-                </span>
-                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
-                  {patient.status.investigations && (
-                    <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
-                  )}
-                    
+                <label className="kanban-item" key={patient.name}>
+                  <input type="checkbox" onChange={() => handleCheckboxChange(patient.name)} />
+                  <span style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+                    {patient.name}
+                    <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.triageCategory)} />
                   </span>
-              </li>
+                  <span style={{ display: "flex", width: "100%", gap: "5px", justifyContent: "flex-end" }}>
+                    {patient.status.investigations && (
+                      <><Badge label={patient.status.investigations.imaging + ' imaging'} color={getBadgeStyle(patient.status.investigations.imaging)} /><Badge label={patient.status.investigations.labs + ' labs'} color={getBadgeStyle(patient.status.investigations.labs)} /></>
+                    )}
+                  </span>
+                </label>
               ))}
           </ul>
         </div>
