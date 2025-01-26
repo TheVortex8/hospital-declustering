@@ -6,7 +6,7 @@
   "scripts": {
     "start": "netlify dev",
     "build:netlify": "netlify build",
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

@@ -43,23 +43,46 @@ const Chatbox = () => {
 
   return (
     <div className="chat-container">
+      <button
+      style={{
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        padding: '10px 20px',
+        fontSize: '16px',
+        color: '#ffffff',
+        backgroundColor: '#00796b',
+        border: 'none',
+        cursor: 'pointer',
+      }}
+      onClick={() => window.location.href = '/dashboard'}
+    >
+      Back
+    </button>
       {/* Chat History Box */}
       <div className="history-box">
-      <h2 className="history-title">Chat History - {username}</h2>
+        <h2 className="history-title">QuickPulse AI</h2>
       </div>
 
       {/* Chat Messages */}
-      <div className="messages-container">
-      {messages.map((message, index) => (
-        <div
-        key={index}
-        className={`message ${message.isUser ? 'user-message' : 'bot-message'}`}
-        style={{ marginBottom: '10px' }}
-        >
-        {message.text}
-        </div>
-      ))}
-      {isLoading && <div className="loading">Loading...</div>}
+      <div 
+        className="messages-container"
+        style={{ 
+          maxHeight: '400px', 
+          overflowY: 'auto',
+          padding: '10px'
+        }}
+      >
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className={`message ${message.isUser ? 'user-message' : 'bot-message'}`}
+            style={{ marginBottom: '10px' }}
+          >
+            {message.text}
+          </div>
+        ))}
+        {isLoading && <div className="loading">Loading...</div>}
       </div>
       
       <form onSubmit={handleSubmit} className="message-form">

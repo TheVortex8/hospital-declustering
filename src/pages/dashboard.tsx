@@ -40,6 +40,13 @@ const Dashboard: React.FC = () => {
         Hello, {userName}!
       </h2>
       <div style={gridStyle}>
+
+      <button 
+          style={buttonStyle}
+          onClick={() => navigate('/profile')}
+        >
+          Profile
+        </button>
         <button 
           style={buttonStyle}
           onClick={() => navigate('/games')}
@@ -50,7 +57,7 @@ const Dashboard: React.FC = () => {
           style={buttonStyle}
           onClick={() => navigate('/chatbox')}
         >
-          QuickPulse AI
+          Ask Us
         </button>
       </div>
     </div>

@@ -34,7 +34,6 @@ const Login: React.FC = () => {
             const data = await response.json();
             // Handle successful login here
             console.log('Login successful:', data);
-            localStorage.setItem('user', JSON.stringify(data));
             localStorage.setItem('patientName', data.name);
             window.location.href = '/dashboard';
             

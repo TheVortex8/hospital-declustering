@@ -6,7 +6,6 @@ const Games: React.FC = () => {
 
   const buttonStyle = {
     padding: '10px',
-    margin: '10px',
     width: '100%',
     minHeight: '10px',
     fontSize: '16px',
@@ -21,17 +20,20 @@ const Games: React.FC = () => {
 
   const gridStyle = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gridTemplateRows: 'repeat(2, 1fr)',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
     gap: '15px',
-    padding: '15px',
     width: '95%',
     maxWidth: '600px',
     margin: '0 auto',
+    placeItems: 'center',
   };
 
   return (
-    <>
+    <div>
+
+      <h2 style={{ textAlign: 'center', margin: '20px 0' }}>
+        Hello, {localStorage.getItem('patientName')}!
+      </h2>
     <button
       style={{
         position: 'absolute',
@@ -63,7 +65,7 @@ const Games: React.FC = () => {
         Wordle
       </button>
     </div>
-    </>
+    </div>
     
   );
 };
