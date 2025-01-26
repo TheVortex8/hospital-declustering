@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import "../styles/AdminPage.css";
 import { Badge } from "../components/Badge"; // Import the Badge component
-import { PatientPhase, PatientsQueue, TriageCategory } from "../../types/patient";
+import { Patient, PatientPhase, PatientsQueue, TriageCategory } from "../../types/patient";
 import React from "react";
+import { useDragAndDrop } from "@formkit/drag-and-drop"
 
 export function AdminPage() {
   const [queue, setQueue] = useState<PatientsQueue>();
@@ -14,6 +15,9 @@ export function AdminPage() {
 const [pendingInvestigationsList, setPendingInvestigationsList] = React.useState(false);
     const [dischargedPatientList, setDischargedPatientList] = React.useState(false);
     const [registeredPatientList, setRegisteredPatientList] = React.useState(false);
+
+   
+
   
   const triagedPatients = (queue?.patients || [])
   .filter(patient => patient.status.current_phase === PatientPhase.TRIAGED);
@@ -32,6 +36,50 @@ const dischargedPatients = (queue?.patients || [])
 
   const registeredPatients = (queue?.patients || [])
   .filter(patient => patient.status.current_phase === PatientPhase.DISCHARGED);
+
+  const [triaged, triagedPatient] = useDragAndDrop<HTMLUListElement, string>(
+    triagedPatients,
+    {
+      group: "triaged",
+     
+    }
+  );
+  const [treatment, treatmentPatient] = useDragAndDrop<HTMLUListElement, string>(
+    treatmentPatients,
+    {
+      group: "treatment",
+     
+    }
+  );
+  const [admitted, patientsAdmitted] = useDragAndDrop<HTMLUListElement, string>(
+    admittedPatients,
+    {
+      group: "admitted",
+     
+    }
+  );
+  const [pendingInvestigation, pendingInvestigationPatient] = useDragAndDrop<HTMLUListElement, string>(
+    pendingInvestigations,
+    {
+      group: "pendingInvestigation",
+     
+    }
+  );
+  const [discharged, dischargedPatient] = useDragAndDrop<HTMLUListElement, string>(
+    dischargedPatients,
+    {
+      group: "discharged",
+     
+    }
+  );
+  const [registered, registeredPatient] = useDragAndDrop<HTMLUListElement, string>(
+    registeredPatients,
+    {
+      group: "registered",
+     
+    }
+  );
+  
 
 
   useEffect(() => {
@@ -80,8 +128,8 @@ const dischargedPatients = (queue?.patients || [])
         {/* Triage */}
         <div>
           <h3>Triage</h3>
-          <ul className="kanban-column">
-            {triagedPatients
+          <ul ref={triaged}className="kanban-column">
+            {triagedPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
                   {patient.name}
@@ -94,9 +142,9 @@ const dischargedPatients = (queue?.patients || [])
         {/* Admitted */}
         <div>
           <h3>Admitted</h3>
-          <ul className="kanban-column">
+          <ul ref={admitted}className="kanban-column">
             {
-             admittedPatients .map((patient) => (
+             patientsAdmitted .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
                   {patient.name}
                   <Badge label={triage[patient.triageCategory - 1]} color={getBadgeStyle(patient.status)} />
@@ -108,8 +156,8 @@ const dischargedPatients = (queue?.patients || [])
         {/* Treatment */}
         <div>
           <h3>Treatment</h3>
-          <ul className="kanban-column">
-            {treatmentPatients
+          <ul ref={treatment} className="kanban-column">
+            {treatmentPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
                   {patient.name}
@@ -122,8 +170,8 @@ const dischargedPatients = (queue?.patients || [])
         {/* Pending Investigations */}
         <div>
           <h3>Pending Investigations</h3>
-          <ul className="kanban-column">
-            {pendingInvestigations
+          <ul ref={pendingInvestigation} className="kanban-column">
+            {pendingInvestigationPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
                   {patient.name}
@@ -136,8 +184,8 @@ const dischargedPatients = (queue?.patients || [])
         {/* Discharged */}
         <div>
           <h3>Discharged</h3>
-          <ul className="kanban-column">
-            {dischargedPatients
+          <ul ref={discharged}className="kanban-column">
+            {dischargedPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
                   {patient.name}
@@ -150,8 +198,8 @@ const dischargedPatients = (queue?.patients || [])
         {/* Registered */}
         <div>
           <h3>Registered</h3>
-          <ul className="kanban-column">
-            {registeredPatients
+          <ul ref={registered}className="kanban-column">
+            {registeredPatient
               .map((patient) => (
                 <li className="kanban-item" key={patient.name}>
                   {patient.name}
@@ -164,5 +212,7 @@ const dischargedPatients = (queue?.patients || [])
     </div>
   );
 }
+
+
 
 
