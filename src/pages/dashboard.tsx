@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
   };
 
   const iconStyle = {
-    textAlign: 'left',
+    textAlign: 'left' as 'left',
     height:'100%',
     width:'100%',
     borderRadius: '50%',
