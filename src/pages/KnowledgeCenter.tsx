@@ -44,7 +44,7 @@ const KnowledgeCenter = () => {
         borderRadius: "5px",
         cursor: "pointer",
       }}
-      onClick={() => (window.location.href = "/knowledgeCenter")}
+      onClick={() => (window.location.href = "/dashboard")}
     >
       Back
     </button>
@@ -109,10 +109,10 @@ const KnowledgeCenter = () => {
               strokeWidth: 2
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.opacity = 1;
+              e.currentTarget.style.opacity = "1";
             }}
             onMouseOut={(e) => {
-              e.currentTarget.style.opacity = 0.7;
+              e.currentTarget.style.opacity = "0.7";
             }}
           />
         </div>
