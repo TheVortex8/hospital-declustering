@@ -8,6 +8,10 @@ const Login: React.FC = () => {
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
 
+    if(localStorage.getItem('user')) {
+        window.location.href = '/dashboard';
+    }
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
@@ -30,6 +34,8 @@ const Login: React.FC = () => {
             const data = await response.json();
             // Handle successful login here
             console.log('Login successful:', data);
+            localStorage.setItem('user', JSON.stringify(data));
+            localStorage.setItem('patientName', data.name);
             window.location.href = '/dashboard';
             
         } catch (error) {

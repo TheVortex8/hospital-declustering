@@ -55,6 +55,13 @@ const Games: React.FC = () => {
       >
         Whacke-a-mole
       </button>
+
+      <button 
+        style={buttonStyle}
+        onClick={() => navigate('/wordle')}
+      >
+        Wordle
+      </button>
     </div>
     </>
     

@@ -1,8 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
+  const [userName, setUserName] = useState<string>('');
+
+  useEffect(() => {
+    const storedUserName = localStorage.getItem('patientName');
+    setUserName(storedUserName || 'Guest');
+  }, []);
 
   const buttonStyle = {
     padding: '10px',
@@ -31,13 +37,18 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div style={gridStyle}>
-      <button 
-        style={buttonStyle}
-        onClick={() => navigate('/games')}
-      >
-        Games
-      </button>
+    <div>
+      <h2 style={{ textAlign: 'center', margin: '20px 0' }}>
+        Hello, {userName}!
+      </h2>
+      <div style={gridStyle}>
+        <button 
+          style={buttonStyle}
+          onClick={() => navigate('/games')}
+        >
+          Games
+        </button>
+      </div>
     </div>
   );
 };
