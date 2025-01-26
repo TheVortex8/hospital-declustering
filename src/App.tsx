@@ -1,15 +1,14 @@
 
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AdminPage } from "./pages/adminPage";
 import "./App.css";
 import Login from "./pages/Login";
+import { AdminPage } from "./pages/AdminPage";
 
 function App() {
   return (
     <Router>
       <div>
-        <h1>Admin Dashboard</h1>
         <Routes>
           
           {/* Default route */}

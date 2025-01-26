@@ -1,106 +1,118 @@
-
+import React from "react";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
-import "../style/AdminPage.css";
+import "../styles/adminPage.css";
 
 export function AdminPage() {
-  const patientsInQueue = [
+  // Separate initial data for each list
+  const patientsTriaged = [
     "John Doe",
     "Jane Smith",
     "Emily Davis",
     "James Miller",
     "Sophia Wilson",
-    "Robert Brown",
+    "Michael Brown",
   ];
 
-  const registeredPatients = ["Anna Baker", "Chris Evans", "Diana Scott"];
+  const admittedPatients = ["William Scott", "Emma Thomas"];
+  const treatmentPatients = ["Oliver Harris"];
+  const dischargedPatients = ["Sophia Johnson"];
+  const pendingInvestigations = ["Ethan Walker"];
+  const registeredPatients = ["Anna Baker", "Chris Evans"];
 
-  const [queueList, queueItems] = useDragAndDrop<HTMLUListElement, string>(
-    patientsInQueue,
-    { group: "Patients", dragHandle: ".kanban-handle" }
+  // Hooks for each list
+  const [triageList, triage] = useDragAndDrop<HTMLUListElement, string>(
+    patientsTriaged,
+    { group: "todoList" }
   );
 
-  const [registeredList, registeredItems] = useDragAndDrop<HTMLUListElement, string>(
+  const [admittedList, admitted] = useDragAndDrop<HTMLUListElement, string>(
+    admittedPatients,
+    { group: "todoList" }
+  );
+
+  const [treatmentList, treatment] = useDragAndDrop<HTMLUListElement, string>(
+    treatmentPatients,
+    { group: "todoList" }
+  );
+
+  const [dischargedList, discharged] = useDragAndDrop<HTMLUListElement, string>(
+    dischargedPatients,
+    { group: "todoList" }
+  );
+
+  const [investigationsPendingList, investigationsPending] =
+    useDragAndDrop<HTMLUListElement, string>(pendingInvestigations, {
+      group: "todoList",
+    });
+
+  const [registeredList, registered] = useDragAndDrop<HTMLUListElement, string>(
     registeredPatients,
-    { group: "Patients", dragHandle: ".kanban-handle" }
-  );
-
-  const [investigationPendingList, investigationPending] = useDragAndDrop<HTMLUListElement, string>(
-    [],
-    { group: "Patients", dragHandle: ".kanban-handle" }
-  );
-
-  const [treatmentList, treatmentItems] = useDragAndDrop<HTMLUListElement, string>(
-    [],
-    { group: "Patients", dragHandle: ".kanban-handle" }
-  );
-
-  const [admittedList, admittedItems] = useDragAndDrop<HTMLUListElement, string>(
-    [],
-    { group: "Patients", dragHandle: ".kanban-handle" }
+    { group: "todoList" }
   );
 
   return (
+    <div>
+    <h1>Admin Dashboard</h1>
     <div className="kanban-board">
-
-      {/* Patients in Queue */}
-      <div className="kanban-column">
-        <h2>Patients in Queue</h2>
-        <ul ref={queueList} className="kanban-list">
-          {queueItems.map((item) => (
-            <li key={item} className="kanban-item kanban-handle">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Registered Patients */}
-      <div className="kanban-column">
-        <h2>Registered Patients</h2>
-        <ul ref={registeredList} className="kanban-list">
-          {registeredItems.map((item) => (
-            <li key={item} className="kanban-item kanban-handle">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Investigation Pending */}
-      <div className="kanban-column">
-        <h2>Investigation Pending</h2>
-        <ul ref={investigationPendingList} className="kanban-list">
-          {investigationPending.map((item) => (
-            <li key={item} className="kanban-item kanban-handle">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Treatment */}
-      <div className="kanban-column">
-        <h2>Treatment</h2>
-        <ul ref={treatmentList} className="kanban-list">
-          {treatmentItems.map((item) => (
-            <li key={item} className="kanban-item kanban-handle">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* Triage */}
+      <ul ref={triageList} className="kanban-column">
+        {triage.map((todo) => (
+          <li className="kanban-item" key={todo}>
+            {todo}
+          </li>
+        ))}
+      </ul>
 
       {/* Admitted */}
-      <div className="kanban-column">
-        <h2>Admitted</h2>
-        <ul ref={admittedList} className="kanban-list">
-          {admittedItems.map((item) => (
-            <li key={item} className="kanban-item kanban-handle">
-              {item}
-            </li>
-          ))}
-        </ul>
+      <ul ref={admittedList} className="kanban-column">
+        {admitted.map((admittedPatient) => (
+          <li className="kanban-item" key={admittedPatient}>
+            {admittedPatient}
+          </li>
+        ))}
+      </ul>
+
+      {/* Treatment */}
+      <ul ref={treatmentList} className="kanban-column">
+        {treatment.map((treatmentPatient) => (
+          <li className="kanban-item" key={treatmentPatient}>
+            {treatmentPatient}
+          </li>
+        ))}
+      </ul>
+
+      {/* Pending Investigations */}
+      <ul ref={investigationsPendingList} className="kanban-column">
+        {investigationsPending.map((pendingInvestigation) => (
+          <li className="kanban-item" key={pendingInvestigation}>
+            {pendingInvestigation}
+          </li>
+        ))}
+      </ul>
+
+      {/* Discharged */}
+      <ul ref={dischargedList} className="kanban-column">
+        {discharged.map((dischargedPatient) => (
+          <li className="kanban-item" key={dischargedPatient}>
+            {dischargedPatient}
+          </li>
+        ))}
+      </ul>
+
+      {/* Registered */}
+     
+      <h3>Registered</h3>
+      <div>
+    
+      <ul ref={registeredList} className="kanban-column">
+        {registered.map((registeredPatient) => (
+          <li className="kanban-item" key={registeredPatient}>
+            {registeredPatient}
+          </li>
+        ))}
+      </ul>
       </div>
     </div>
+  </div>
   );
 }
