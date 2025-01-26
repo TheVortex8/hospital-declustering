@@ -153,7 +153,7 @@ const TestInfo: React.FC = () => {
           borderRadius: "5px",
           cursor: "pointer",
         }}
-        onClick={() => window.location.href = "/knowledgeCenter"}
+        onClick={() => window.location.href = "/dashboard"}
       >
         Back
       </button>

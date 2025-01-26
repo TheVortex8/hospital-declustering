@@ -16,7 +16,9 @@ const KnowledgeCenter = () => {
   ];
 
   return (
+    
     <div
+    
       className="container"
       style={{
         minHeight: "100vh",
@@ -29,6 +31,24 @@ const KnowledgeCenter = () => {
         backgroundColor: "#f4f7fa", // Softer background
       }}
     >
+    <button
+      style={{
+        position: "absolute",
+        top: "10px",
+        left: "10px",
+        padding: "10px 20px",
+        fontSize: "16px",
+        color: "#ffffff",
+        backgroundColor: "#00796b",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+      }}
+      onClick={() => (window.location.href = "/knowledgeCenter")}
+    >
+      Back
+    </button>
+  
       <h1 className="text-4xl font-bold mb-16 text-center text-gray-800">
         Knowledge Center
       </h1>
