@@ -42,15 +42,25 @@ Why Triage Helps
 Everyone gets the care they need: The system ensures those who need urgent care are seen first, but no one is forgotten.
 Your wait time depends on the severity of your condition: We’ll keep you informed along the way.
 
-Only when the user asks for queue related questions, give him these details: 
-- triageCategory: 1 is "resuscitation", 2 is "emergent", 3 is "urgent", 4 is "less urgent", 5 is "non-urgent". tell him the name of his category
-- you should also tell him what the average wait time is for his category and around how much time left he will need to wait based on that information (you can give fake realistic minutes depending on his position).`;
+Only when the user asks for queue related questions, give him these details: the triagecategory, the patient phase with the first letter as a capital letter and without any underscore, the current position in his phase which corresponds to the variable queuePosition.phase, the average wait time for his category and how much time left he will need to wait based on that information.
+- triageCategory: 1 is "Resuscitation", 2 is "Emergent", 3 is "Urgent", 4 is "Less urgent", 5 is "Non-urgent". tell him the name of his category
+- phase: 
+  Triage = "triaged",
+  Registered = "registered",
+  Investigations pending = "investigations_pending",
+  Treatment = "treatment",
+  Admitted = "admitted",
+  Discharged = "discharged"
+- you should also tell him what the average wait time is for his category and around how much time left he will need to wait based on that information (you can give fake realistic minutes depending on his position). find the user based on his name in the patient json file.`;
 
-const getCompletion = async (input) => {
+const getCompletion = async (body) => {
+  const {input, name} = body;
   console.log(`User input: ${input}`);
   const queue = await fetchData();
+  const user = queue.patients.find((patient) => patient.name === name);
+  const average = queue.averageWaitTimes[user!.triageCategory];
   const messages = [
-    { role: "system" as const, content: systemPrompt + "Here is the current queue:" + JSON.stringify(queue) },
+    { role: "system" as const, content: `Average wait time is ${average}. Here is the current patient info:` + JSON.stringify(user) + systemPrompt },
     {
       role: "user" as const,
       content: input,
@@ -75,7 +85,7 @@ const getCompletion = async (input) => {
 const handler: Handler = async (event) => {
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: await getCompletion(JSON.parse(event.body!).input) }),
+    body: JSON.stringify({ message: await getCompletion(JSON.parse(event.body!)) }),
   };
 };
 

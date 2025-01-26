@@ -19,57 +19,84 @@ const KnowledgeCenter = () => {
     <div
       className="container"
       style={{
-        minHeight: "100vh",
-        padding: "40px 20px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        overflowY: "auto",
-        backgroundColor: "#f4f7fa", // Softer background
+      minHeight: "100vh",
+      padding: "40px 20px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      overflowY: "auto",
+      backgroundColor: "#f4f7fa", // Softer background
       }}
     >
       <h1 className="text-4xl font-bold mb-16 text-center text-gray-800">
-        Knowledge Center
+      Knowledge Center
       </h1>
       <div className="w-full max-w-5xl">
-        {menuItems.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => navigate(item.endpoint)} // Navigate to the endpoint
-            className="flex items-center justify-between pl-10 pr-8 py-6 bg-white hover:bg-blue-50 transition-all duration-300"
-            style={{
-              minHeight: "100px",
-              width: "100%",
-              borderBottom:
-                index === menuItems.length - 1 ? "none" : "1px solid #e5e7eb",
-              boxShadow:
-                "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
-              borderRadius: "8px",
-              cursor: "pointer", // Add pointer cursor
-            }}
-          >
+      {menuItems.map((item, index) => (
+        <div
+          key={index}
+          onClick={() => navigate(item.endpoint)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center", // Changed to flex-start for left alignment
+            paddingLeft: "5px",
+            backgroundColor: "white",
+            minHeight: "100px",
+            width: "100%",
+            borderBottom: index === menuItems.length - 1 ? "none" : "1px solid #e5e7eb",
+            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
+            borderRadius: "8px",
+            cursor: "pointer",
+            marginBottom: "16px",
+            transition: "background-color 0.3s",
+            textAlign: "left",
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = "#EBF5FF";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = "white";
+          }}
+        >
+          <div style={{ flexGrow: 1 }}>
             <span
-              className="text-3xl font-semibold text-gray-700 flex-grow leading-tight pr-6"
               style={{
-                textDecoration: "none", // Default (no underline)
+          fontSize: "1rem",
+          fontWeight: 600,
+          color: "#374151",
+          lineHeight: 1.25,
+          paddingRight: "24px",
               }}
               onMouseOver={(e) => {
-                e.currentTarget.style.textDecoration = "underline"; // Add underline on hover
+          e.currentTarget.style.textDecoration = "underline";
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.textDecoration = "none"; // Remove underline on hover out
+          e.currentTarget.style.textDecoration = "none";
               }}
             >
               {item.label}
             </span>
-            <ChevronRight
-              className="text-blue-500 opacity-70 hover:opacity-100"
-              strokeWidth={2}
-              size={36}
-            />
           </div>
-        ))}
+          <ChevronRight
+            style={{
+              color: "#3B82F6",
+              opacity: 0.7,
+              marginLeft: "auto",
+              width: "36px",
+              height: "36px",
+              strokeWidth: 2
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.opacity = 1;
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.opacity = 0.7;
+            }}
+          />
+        </div>
+      ))}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ const WhackAMole = () => {
   const [moles, setMoles] = useState(Array(9).fill(false));
   const [highScore, setHighScore] = useState(0);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(30);
   const [activeIndex, setActiveIndex] = useState(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const WhackAMole = () => {
         setMoles((prev) =>
           prev.map((_, idx) => (idx === randomIndex ? true : false))
         );
-      }, 800);
+      }, 400+10*timeLeft);
       return () => clearInterval(moleTimer);
     } else {
       alert(`Game Over! Your score is ${score}`);

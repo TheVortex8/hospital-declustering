@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Patient, PatientsQueue } from '../../types/patient.ts';
 import logo from '../assets/logo.png';
 import '../styles/profile.css'; // Import the CSS file
+import { FaUser } from 'react-icons/fa';
 
 export default function Profile() {
   const [patientData, setPatientData] = useState<Patient | null>(null);
@@ -54,15 +55,16 @@ export default function Profile() {
     <div className="profile-container">
       <button
         className="back-button"
-        onClick={() => window.location.href = '/games'}
+        onClick={() => window.location.href = '/dashboard'}
       >
         Back
       </button>
       <h1 className="profile-title">Patient Profile</h1>
       <div className="profile-box">
         <div className="profile-picture">
-          {/* Placeholder for profile picture */}
-          <img src={logo} alt="Profile" />
+          {/* Placeholder for profile picture */}          
+          <FaUser size={24} color='#78B3CE' style={{backgroundColor:'#555', padding: '1rem', borderRadius: '50%'}}/> {/* Add icon */}
+          
         </div>
         <div className="profile-info">
           <p><strong>{patientData.name}</strong></p>
