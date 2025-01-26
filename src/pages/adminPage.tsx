@@ -205,7 +205,7 @@ export function AdminPage() {
     <div>
       <h1>Admin Dashboard</h1>
       <div className="floating-navbar">
-        <button onClick={() => setShowCreatePanel(true)}>Create User</button>
+        <button onClick={() => setShowCreatePanel(true)}>Create New Patient</button>
         {selectedPatients.size > 0 && (
           <>
             <select onChange={(e) => setNewGroup(e.target.value as PatientPhase)}>
