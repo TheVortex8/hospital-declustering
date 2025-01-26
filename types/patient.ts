@@ -32,7 +32,6 @@ export interface Patient {
     category: number;
   };
   status: Status;
-  timeElapsed: number;
 }
 
 export interface Status {
