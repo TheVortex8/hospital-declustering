@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { Handler } from '@netlify/functions';
-import { data } from './utils/db';
+import { fetchData } from "./utils/db";
 
 const openai = new OpenAI();
 const systemPrompt = `You are an assistant that informs the user only of these info.  You should make sure to comfort the user if he feels anxious.
@@ -56,7 +56,7 @@ Only when the user asks for queue related questions, give him these details:
 
 const getCompletion = async (input) => {
   console.log(`User input: ${input}`);
-  const queue = data;
+  const queue = await fetchData();
   const messages = [
     { role: "system" as const, content: systemPrompt + "Here is the current queue:" + JSON.stringify(queue) },
     {

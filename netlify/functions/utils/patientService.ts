@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { InvestigationState, Patient, PatientPhase, PatientsQueue, Status, TriageCategory } from "../../../types/patient";
-import { saveToDb } from "./db";
+import { updateDb } from "./db";
 
-export const updateQueue = (patients: Patient[]) => {
+export const updateQueue = async (patients: Patient[]) => {
   patients.sort((a, b) => {
     if (a.triageCategory !== b.triageCategory) {
       return a.triageCategory - b.triageCategory;
@@ -38,7 +38,7 @@ export const updateQueue = (patients: Patient[]) => {
     patients,
   };
 
-  saveToDb(queue);
+  await updateDb(queue);
   
   return queue;
 }

@@ -3,7 +3,7 @@ import "../styles/AdminPage.css";
 import { Badge } from "../components/Badge"; // Import the Badge component
 import { Patient, PatientPhase, PatientsQueue, TriageCategory } from "../../types/patient";
 import React from "react";
-import { useDragAndDrop } from "@formkit/drag-and-drop"
+import { useDragAndDrop } from "@formkit/drag-and-drop/react"
 
 export function AdminPage() {
   const [queue, setQueue] = useState<PatientsQueue>();
@@ -86,7 +86,7 @@ const dischargedPatients = (queue?.patients || [])
     
     const fetchPatients = async () => {
       try {
-        const response = await fetch("http://localhost:8888/api/get")
+        const response = await fetch("/api/get")
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

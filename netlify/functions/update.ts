@@ -1,12 +1,13 @@
 import { Handler } from '@netlify/functions';
-import { data } from './utils/db';
 import { updateQueue } from './utils/patientService';
+import { fetchData } from './utils/db';
 
 // api/v1/update
 // POST
 // check types/patient.ts for the expected body
 const handler: Handler = async (event) => {
   const patientToUpdate = parseWithDates(event.body!);
+  const data = await fetchData();
   const patientIndex = data.patients.findIndex(patient => patient.id === patientToUpdate.id);
 
   if (patientIndex === -1) {
