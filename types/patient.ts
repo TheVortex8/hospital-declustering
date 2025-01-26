@@ -30,6 +30,7 @@ export interface Patient {
   queuePosition?: {
     global: number;
     category: number;
+    phase: number;
   };
   status: Status;
 }

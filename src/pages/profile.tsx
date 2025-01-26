@@ -48,7 +48,8 @@ export default function Profile() {
       <p><strong>Age:</strong> {new Date().getFullYear() - new Date(patientData.birthDate).getFullYear()}</p>
       <p><strong>Current Phase:</strong> {patientData.status.current_phase}</p>
       <p><strong>Average waiting time for phase:</strong> {average} minutes</p>
-      <p><strong>Current position in queue for phase:</strong> {patientData.queuePosition.category}</p>
+      <p><strong>Current position in queue for category:</strong> {patientData.queuePosition.category}</p>
+      <p><strong>Current position in phase for phase:</strong> {patientData.queuePosition.phase}</p>
       <p><strong>Triage Category:</strong> {
         {
           1: 'resuscitation',

@@ -12,9 +12,15 @@ export const updateQueue = async (patients: Patient[]) => {
   });
 
   for (let i = 0; i < patients.length; i++) {
+    const samePhasePatients = patients.filter(patient => 
+      patient.status.current_phase === patients[i].status.current_phase &&
+      patient.triageCategory === patients[i].triageCategory
+    );
+    
     patients[i].queuePosition = {
       global: i + 1,
-      category: patients.filter(patient => patient.triageCategory === patients[i].triageCategory).indexOf(patients[i]) + 1
+      category: patients.filter(patient => patient.triageCategory === patients[i].triageCategory).indexOf(patients[i]) + 1,
+      phase: samePhasePatients.indexOf(patients[i]) + 1
     };
   }
 
@@ -118,9 +124,15 @@ export const generateMockPatients = (count): PatientsQueue => {
   });
 
   for (let i = 0; i < patients.length; i++) {
+    const samePhasePatients = patients.filter(patient => 
+      patient.status.current_phase === patients[i].status.current_phase &&
+      patient.triageCategory === patients[i].triageCategory
+    );
+    
     patients[i].queuePosition = {
       global: i + 1,
-      category: patients.filter(patient => patient.triageCategory === patients[i].triageCategory).indexOf(patients[i]) + 1
+      category: patients.filter(patient => patient.triageCategory === patients[i].triageCategory).indexOf(patients[i]) + 1,
+      phase: samePhasePatients.indexOf(patients[i]) + 1
     };
   }
 
