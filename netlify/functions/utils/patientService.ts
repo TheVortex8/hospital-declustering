@@ -1,9 +1,15 @@
 import { faker } from "@faker-js/faker";
 import { InvestigationState, Patient, PatientPhase, PatientsQueue, Status, TriageCategory } from "../../../types/patient";
-import { updateDb } from "./db";
+import { fetchData, updateDb } from "./db";
 
 export const updateQueue = async (patients: Patient[]) => {
-  patients.sort((a, b) => {
+  const currentQueue = await fetchData();
+  currentQueue.patients = patients;
+  currentQueue.patients.sort((a, b) => {
+    if (a.status.current_phase !== b.status.current_phase) {
+      return Object.values(PatientPhase).indexOf(a.status.current_phase) - Object.values(PatientPhase).indexOf(b.status.current_phase);
+    }
+    
     if (a.triageCategory !== b.triageCategory) {
       return a.triageCategory - b.triageCategory;
     }
@@ -11,52 +17,47 @@ export const updateQueue = async (patients: Patient[]) => {
     return a.arrivalTime.getTime() - b.arrivalTime.getTime();
   });
 
-  for (let i = 0; i < patients.length; i++) {
+  for (const patient of currentQueue.patients) {
     
-    const samePhasePatients = patients.filter(patient => 
-      patient.status.current_phase === patients[i].status.current_phase
+    const samePhasePatients = currentQueue.patients.filter(p => 
+      p.status.current_phase === patient.status.current_phase
     );
     
-    const allPatientsSortedByArrival = [...patients].sort((a, b) => 
+    const allPatientsSortedByArrival = [...currentQueue.patients].sort((a, b) => 
       a.arrivalTime.getTime() - b.arrivalTime.getTime()
     );
 
-    patients[i].queuePosition = {
-      global: allPatientsSortedByArrival.indexOf(patients[i]) + 1,
-      phase: samePhasePatients.indexOf(patients[i]) + 1,
-      categoryInPhase: samePhasePatients.filter(patient => 
-      patient.triageCategory === patients[i].triageCategory
-      ).indexOf(patients[i]) + 1,
-      categoryGlobal: patients.filter(patient => 
-      patient.triageCategory === patients[i].triageCategory
-      ).indexOf(patients[i]) + 1
+    patient.queuePosition = {
+      global: allPatientsSortedByArrival.indexOf(patient) + 1,
+      phase: samePhasePatients.indexOf(patient) + 1,
+      categoryInPhase: samePhasePatients.filter(p => p.triageCategory === patient.triageCategory).indexOf(patient) + 1,
+      categoryGlobal: currentQueue.patients.filter(p => p.triageCategory === patient.triageCategory).indexOf(patient) + 1
     };
   }
 
   const queue: PatientsQueue = {
-    waitingCount: patients.length,
-    longuestWaitTimePerPhase: 
-    Object.values(PatientPhase).reduce((acc, phase) => {
-      const patientsInPhase = patients.filter(p => p.status.current_phase === phase);
+    waitingCount: currentQueue.patients.length,
+    longuestWaitTimePerPhase: Object.values(PatientPhase).reduce((acc, phase) => {
+      const patientsInPhase = currentQueue.patients.filter(p => p.status.current_phase === phase);
       const maxWait = patientsInPhase.length ? Math.ceil(Math.max(...patientsInPhase.map(p => (new Date().getTime() - p.arrivalTime.getTime()) / 60000))) : 0;
       acc[phase] = maxWait;
       return acc;
     }, {} as Record<PatientPhase, number>),
     categoryBreakdown: {
-      [TriageCategory.RESUSCITATION]: patients.filter(patient => patient.triageCategory === TriageCategory.RESUSCITATION).length,
-      [TriageCategory.EMERGENT]: patients.filter(patient => patient.triageCategory === TriageCategory.EMERGENT).length,
-      [TriageCategory.URGENT]: patients.filter(patient => patient.triageCategory === TriageCategory.URGENT).length,
-      [TriageCategory.LESS_URGENT]: patients.filter(patient => patient.triageCategory === TriageCategory.LESS_URGENT).length,
-      [TriageCategory.NON_URGENT]: patients.filter(patient => patient.triageCategory === TriageCategory.NON_URGENT).length,
+      [TriageCategory.RESUSCITATION]: currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.RESUSCITATION).length,
+      [TriageCategory.EMERGENT]: currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.EMERGENT).length,
+      [TriageCategory.URGENT]: currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.URGENT).length,
+      [TriageCategory.LESS_URGENT]: currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.LESS_URGENT).length,
+      [TriageCategory.NON_URGENT]: currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.NON_URGENT).length,
     },
     averageWaitTimes: {
-      [TriageCategory.RESUSCITATION]: Math.ceil(patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.RESUSCITATION ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / patients.filter(patient => patient.triageCategory === TriageCategory.RESUSCITATION).length),
-      [TriageCategory.EMERGENT]: Math.ceil(patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.EMERGENT ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / patients.filter(patient => patient.triageCategory === TriageCategory.EMERGENT).length),
-      [TriageCategory.URGENT]: Math.ceil(patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.URGENT ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / patients.filter(patient => patient.triageCategory === TriageCategory.URGENT).length),
-      [TriageCategory.LESS_URGENT]: Math.ceil(patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.LESS_URGENT ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / patients.filter(patient => patient.triageCategory === TriageCategory.LESS_URGENT).length),
-      [TriageCategory.NON_URGENT]: Math.ceil(patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.NON_URGENT ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / patients.filter(patient => patient.triageCategory === TriageCategory.NON_URGENT).length),
+      [TriageCategory.RESUSCITATION]: Math.ceil(currentQueue.patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.RESUSCITATION ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.RESUSCITATION).length),
+      [TriageCategory.EMERGENT]: Math.ceil(currentQueue.patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.EMERGENT ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.EMERGENT).length),
+      [TriageCategory.URGENT]: Math.ceil(currentQueue.patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.URGENT ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.URGENT).length),
+      [TriageCategory.LESS_URGENT]: Math.ceil(currentQueue.patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.LESS_URGENT ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.LESS_URGENT).length),
+      [TriageCategory.NON_URGENT]: Math.ceil(currentQueue.patients.reduce((sum, patient) => sum + (patient.triageCategory === TriageCategory.NON_URGENT ? (new Date().getTime() - patient.arrivalTime.getTime()) / 60000 : 0), 0) / currentQueue.patients.filter(patient => patient.triageCategory === TriageCategory.NON_URGENT).length),
     },
-    patients,
+    patients: currentQueue.patients,
   };
 
   await updateDb(queue);
