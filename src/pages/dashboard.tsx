@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
         >
           <span style={iconStyle}>
           <FaBook size={24} color='#78B3CE' style={{backgroundColor:'#555', padding: '1rem', borderRadius: '50%'}}/> {/* Add icon */}
-          Info Hub
+          <span style={{ whiteSpace: 'nowrap', fontSize: '18px' }}>Knowledge Center</span>
           </span>
         </button>
 
