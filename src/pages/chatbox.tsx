@@ -26,7 +26,7 @@ const Chatbox = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ input: `My name is ${username}: ${input}`}),
+        body: JSON.stringify({ name: username, input: `My name is ${username}: ${input}`}),
       });
 
       const data = await response.json();
