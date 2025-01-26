@@ -27,9 +27,18 @@ function App() {
 
           {/* Default route */}
           <Route path="/" element={<>
-            <h2>Welcome to the Hospital Dashboard</h2>
-            <button onClick={() => window.location.href = '/login'}>Go to Login</button>
-          </>
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100vh',
+              gap: '20px',
+              marginTop: '-45px'
+            }}>
+              <h2>Welcome to QuickPulse</h2>
+              <button onClick={() => window.location.href = '/login'}>Go to Login</button>
+            </div>  </>
           } />
 
           {/* Admin Page Route */}

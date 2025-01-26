@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
   };
 
   const iconStyle = {
-    textAlign: 'left' as 'left',
+    textAlign: 'left' as const,
     height:'100%',
     width:'100%',
     borderRadius: '50%',
@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
         >
           <span style={iconStyle}>
           <FaBook size={24} color='#78B3CE' style={{backgroundColor:'#555', padding: '1rem', borderRadius: '50%'}}/> {/* Add icon */}
-          Knowledge Center
+          Learning zone
           </span>
         </button>
 

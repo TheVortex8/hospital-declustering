@@ -17,6 +17,13 @@ const handler: Handler = async (event) => {
     };
   }
 
+  data.patients = data.patients.map(patient => {
+    if (patient.id === patientToUpdate.id) {
+      return patientToUpdate;
+    }
+    return patient;
+  })
+
   const refreshedData = updateQueue(data.patients);
 
   return {
