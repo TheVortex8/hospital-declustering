@@ -8,7 +8,7 @@
   --primary-color-light: #FFA07A;
   --secondary-color: #C9E6F0;
 
-
+  overflow: hidden;
   color-scheme: light dark;
   color: var(--text-color);
   background-color: var(--background-color);

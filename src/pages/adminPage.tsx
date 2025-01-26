@@ -1,6 +1,8 @@
 import React from "react";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
+import logo from "../assets/logo.png";
 import "../styles/adminPage.css";
+import { Badge } from "../components/Badge";
 
 export function AdminPage() {
   // Separate initial data for each list
@@ -51,66 +53,101 @@ export function AdminPage() {
   );
 
   return (
-    <div>
-    <h1>Admin Dashboard</h1>
+    <div className="admin-container">
     <div className="kanban-board">
       {/* Triage */}
-      <ul ref={triageList} className="kanban-column">
-        {triage.map((todo) => (
-          <li className="kanban-item" key={todo}>
-            {todo}
-          </li>
-        ))}
-      </ul>
+      <div className="group-container">
+        <h3 className="group-title">Registered</h3>
+        <ul ref={triageList} className="kanban-column">
+          {triage.map((todo) => (
+            <li className="kanban-item" key={todo}>
+              {todo}
+              <div className="badge-container">
+                <Badge color="red" text="Critical" />
+                <Badge color="red" text="Critical" />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {/* Admitted */}
-      <ul ref={admittedList} className="kanban-column">
-        {admitted.map((admittedPatient) => (
-          <li className="kanban-item" key={admittedPatient}>
-            {admittedPatient}
-          </li>
-        ))}
-      </ul>
+      <div className="group-container">
+      <h3 className="group-title">Triaged</h3>
+        <ul ref={admittedList} className="kanban-column">
+          {admitted.map((admittedPatient) => (
+            <li className="kanban-item" key={admittedPatient}>
+              {admittedPatient}
+              <div className="badge-container">
+                <Badge color="red" text="Critical" />
+                <Badge color="red" text="Critical" />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {/* Treatment */}
-      <ul ref={treatmentList} className="kanban-column">
-        {treatment.map((treatmentPatient) => (
-          <li className="kanban-item" key={treatmentPatient}>
-            {treatmentPatient}
-          </li>
-        ))}
-      </ul>
-
+      <div className="group-container">
+      <h3 className="group-title">Investigations Pending</h3>
+        <ul ref={treatmentList} className="kanban-column">
+          {treatment.map((treatmentPatient) => (
+            <li className="kanban-item" key={treatmentPatient}>
+              {treatmentPatient}
+              <div className="badge-container">
+                <Badge color="red" text="Critical" />
+                <Badge color="red" text="Critical" />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
       {/* Pending Investigations */}
-      <ul ref={investigationsPendingList} className="kanban-column">
-        {investigationsPending.map((pendingInvestigation) => (
-          <li className="kanban-item" key={pendingInvestigation}>
-            {pendingInvestigation}
-          </li>
-        ))}
-      </ul>
+      <div className="group-container">
+      <h3 className="group-title">Treatment</h3>
+        <ul ref={investigationsPendingList} className="kanban-column">
+          {investigationsPending.map((pendingInvestigation) => (
+            <li className="kanban-item" key={pendingInvestigation}>
+              {pendingInvestigation}
+              <div className="badge-container">
+                <Badge color="red" text="Critical" />
+                <Badge color="red" text="Critical" />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {/* Discharged */}
-      <ul ref={dischargedList} className="kanban-column">
-        {discharged.map((dischargedPatient) => (
-          <li className="kanban-item" key={dischargedPatient}>
-            {dischargedPatient}
-          </li>
-        ))}
-      </ul>
+      <div className="group-container">
+      <h3 className="group-title">Admitted</h3>
+        <ul ref={dischargedList} className="kanban-column">
+          {discharged.map((dischargedPatient) => (
+            <li className="kanban-item" key={dischargedPatient}>
+              {dischargedPatient}
+              <div className="badge-container">
+                <Badge color="red" text="Critical" />
+                <Badge color="red" text="Critical" />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      {/* Registered */}
-     
-      <h3>Registered</h3>
-      <div>
-    
-      <ul ref={registeredList} className="kanban-column">
-        {registered.map((registeredPatient) => (
-          <li className="kanban-item" key={registeredPatient}>
-            {registeredPatient}
-          </li>
-        ))}
-      </ul>
+      {/* Registered */}    
+      <div className="group-container">
+      <h3 className="group-title">Discharged</h3>
+        <ul ref={registeredList} className="kanban-column">
+          {registered.map((registeredPatient) => (
+            <li className="kanban-item" key={registeredPatient}>
+              {registeredPatient}
+              <div className="badge-container">
+                <Badge color="red" text="Critical" />
+                <Badge color="red" text="Critical" />
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </div>

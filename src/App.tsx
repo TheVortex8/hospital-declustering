@@ -12,7 +12,6 @@ import Wordle from "./pages/wordle";
 function App() {
   return (
     <Router>
-      <div>
         <Routes>
 
           {/* Default route */}
@@ -30,7 +29,6 @@ function App() {
           <Route path="/whackeamole" element={<WhackAMole />} />
           <Route path="/wordle" element={<Wordle />} />
         </Routes>
-      </div>
     </Router>
   );
 }
