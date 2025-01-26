@@ -35,20 +35,6 @@
       }
     },
     {
-      "id": "anon14",
-      "name": "Johnny Nicolas",
-      "birthDate": "1947-04-09T05:35:52.102Z",
-      "arrivalTime": "2025-01-25T21:28:38.447Z",
-      "status": {
-        "current_phase": "triaged"
-      },
-      "triageCategory": 2,
-      "queuePosition": {
-        "global": 2,
-        "category": 1
-      }
-    },
-    {
       "id": "anon6",
       "name": "Marian Bergnaum-Reilly",
       "birthDate": "1962-06-28T09:28:44.387Z",
@@ -254,8 +240,8 @@
     },
     {
       "id": "anon1",
-      "name": "Angie Huels",
-      "birthDate": "1972-03-26T20:07:20.193Z",
+      "name": "Amine",
+      "birthDate": "2001-01-01T20:07:20.193Z",
       "arrivalTime": "2025-01-25T20:21:38.446Z",
       "status": {
         "current_phase": "admitted",

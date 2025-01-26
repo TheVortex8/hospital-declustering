@@ -4,19 +4,22 @@ import { data } from './utils/db';
 // api/v1/login
 // POST
 // {
-//   "id": "anon1",
-//   "birthDate": "19660408"
+//   "name": "Angie Huels",
+//   "birthDate": "19720326"
 // }
 
 const handler: Handler = async (event) => {
-  const { id, birthDate } = JSON.parse(event.body!);
+  const { name, birthDate } = JSON.parse(event.body!);
   
   const year = birthDate.substring(0, 4);
   const month = birthDate.substring(4, 6);
   const date = birthDate.substring(6, 8);
 
+  const test = data.patients.find(patient => patient.name.toLowerCase().trim() === name.toLowerCase().trim());
+  console.log(new Date(test.birthDate));
+
   const patient = data.patients.find(patient => 
-    patient.id === id &&
+    patient.name.toLowerCase().trim() === name.toLowerCase().trim() &&
     new Date(patient.birthDate).getFullYear() == year &&
     new Date(patient.birthDate).getMonth() + 1 == month &&
     new Date(patient.birthDate).getDate() == date
