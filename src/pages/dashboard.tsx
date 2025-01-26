@@ -94,7 +94,7 @@ const Dashboard: React.FC = () => {
         >
           <span style={iconStyle}>
           <FaComments size={24} style={{backgroundColor:'#555', padding: '1rem', borderRadius: '50%'}} /> {/* Add icon */}
-          Ask Us
+          Ask AI
           </span>
         </button>
       </div>
