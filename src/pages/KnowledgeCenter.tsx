@@ -51,9 +51,9 @@ const KnowledgeCenter = () => {
         fontSize: '2rem',
         marginTop: '1em',
         marginBottom: '1.5rem',
-        textAlign: 'center',  
+        textAlign: 'center',
       }}>
-        Info Hub
+        Knowledge Center
       </h1>
       <div className="w-full max-w-5xl">
       {menuItems.map((item, index) => (
