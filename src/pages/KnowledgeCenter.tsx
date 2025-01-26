@@ -7,7 +7,7 @@ const KnowledgeCenter = () => {
   const menuItems = [
     { label: "Understanding Triage", endpoint: "/triageInfo" },
     { label: "Understanding Medical Tests", endpoint: "/medicalTestInfo" },
-    { label: "The Emergency Care Process", endpoint: "/emergencyCareProcessInfo" },
+    { label: "The Emergency Care Process", endpoint: "/emergencyCareProcess" },
     { label: "What to Do Before and After an ER Visit", endpoint: "/ERVisitInfo" },
     { label: "Healthy Lifestyle", endpoint: "/healthyLifeStyleInfo" },
     { label: "Resources and Useful Links", endpoint: "/resourcesInfo" },
